@@ -20,7 +20,7 @@
     "time",
     "stretch"
   ],
-  "author": "Gon & Olivier",
+  "author": "Mano, Gon & Olivier",
   "license": "The Unlicense",
   "dependencies": {
     "fft.js": "^4.0.3",
