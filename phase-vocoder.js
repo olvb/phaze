@@ -1,24 +1,27 @@
 "use strict";
 
+const OlaProcessor = require('./ola-processor.js');
 const BufferedProcessor = require('./buffered-processor.js');
 const FFT = require('fft.js');
 
-class PhaseVocoderProcessor extends BufferedProcessor {
+class PhaseVocoderProcessor extends OlaProcessor {
     constructor(options) {
         options.processorOptions = {
             numberOfInputChannels: 1,
             numberOfOutputChannels: 1,
-            blockSizeFactor: 4
+            bufferedBlockSize: 512,
+            hopSize: 256
         };
         super(options)
 
         // prepare FFT and pre-allocate buffers
-        this.fft = new FFT(this.blockSize);
+        this.fft = new FFT(this.bufferedBlockSize);
         this.freqComplexBuffer = this.fft.createComplexArray();
         this.timeComplexBuffer = this.fft.createComplexArray();
     }
 
-    processBuffered(inputs, outputs) {
+    processOla(inputs, outputs) {
+        // console.log("process ola");
         for (var i = 0; i < this.nbInputs; i++) {
             for (var j = 0; j < this.nbInputChannels; j++) {
                 var inputChannel = inputs[i][j];
