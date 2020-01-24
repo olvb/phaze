@@ -14,6 +14,13 @@ function genHannWindow(length) {
 }
 
 class PhaseVocoderProcessor extends OLAProcessor {
+    static get parameterDescriptors() {
+        return [{
+            name: 'pitchFactor',
+            defaultValue: 1.0
+        }];
+    }
+
     constructor(options) {
         options.processorOptions = {
             blockSize: BUFFERED_BLOCK_SIZE,
@@ -21,7 +28,6 @@ class PhaseVocoderProcessor extends OLAProcessor {
         super(options);
 
         this.fftSize = this.blockSize;
-        this.shiftFactor = 1.25;
         this.timeCursor = 0;
 
         this.hannWindow = genHannWindow(this.blockSize);
@@ -37,6 +43,8 @@ class PhaseVocoderProcessor extends OLAProcessor {
     }
 
     processOLA(inputs, outputs, parameters) {
+        const pitchFactor = parameters.pitchFactor[0];
+
         for (var i = 0; i < this.nbInputs; i++) {
             for (var j = 0; j < inputs[i].length; j++) {
                 // big assumption here: output is symetric to input
@@ -49,7 +57,7 @@ class PhaseVocoderProcessor extends OLAProcessor {
 
                 this.computeMagnitudes();
                 this.findPeaks();
-                this.shiftPeaks();
+                this.shiftPeaks(pitchFactor);
 
                 this.fft.completeSpectrum(this.freqComplexBufferShifted);
                 this.fft.inverseTransform(this.timeComplexBuffer, this.freqComplexBufferShifted);
@@ -106,14 +114,14 @@ class PhaseVocoderProcessor extends OLAProcessor {
         }
     }
 
-    /** Shift peaks and regions of influence by shiftFactor into new specturm */
-    shiftPeaks() {
+    /** Shift peaks and regions of influence by pitchFactor into new specturm */
+    shiftPeaks(pitchFactor) {
         // zero-fill new spectrum
         this.freqComplexBufferShifted.fill(0);
 
         for (var i = 0; i < this.nbPeaks; i++) {
             let peakIndex = this.peakIndexes[i];
-            let peakIndexShifted = Math.round(peakIndex * this.shiftFactor);
+            let peakIndexShifted = Math.round(peakIndex * pitchFactor);
 
             if (peakIndexShifted > this.magnitudes.length) {
                 break;
