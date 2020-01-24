@@ -5,18 +5,22 @@ const wavesUI = require('waves-ui');
 const wavesLoaders = require('waves-loaders');
 
 let audioContext = wavesAudio.audioContext;
-
 let loader = new wavesLoaders.AudioBufferLoader();
+
+var speedFactor = 1.0;
+var pitchFactor = 1.0;
 
 async function init() {
     const buffer = await loader.load('./sample_m.wav');
 
-    let playerEngine = await setupEngine(buffer);
+    let [playerEngine, phaseVocoderNode] = await setupEngine(buffer);
     let playControl = new wavesAudio.PlayControl(playerEngine);
     playControl.setLoopBoundaries(0, buffer.duration);
     playControl.loop = true;
 
     setupPlayPauseButton(playControl);
+    setupSpeedSlider(playControl, phaseVocoderNode);
+    setupPitchSlider(playControl, phaseVocoderNode);
     setupTimeline(buffer, playControl);
 }
 
@@ -27,15 +31,14 @@ async function setupEngine(buffer) {
 
     await audioContext.audioWorklet.addModule('phase-vocoder.js');
     let phaseVocoderNode = new AudioWorkletNode(audioContext, 'phase-vocoder-processor');
-
     playerEngine.connect(phaseVocoderNode);
     phaseVocoderNode.connect(audioContext.destination);
 
-    return playerEngine;
+    return [playerEngine, phaseVocoderNode];
 }
 
 function setupPlayPauseButton(playControl) {
-    let $playButton = document.querySelector('button');
+    let $playButton = document.querySelector('#play-pause');
     $playButton.addEventListener('click', function() {
         if (audioContext.state === 'suspended') {
             audioContext.resume();
@@ -48,6 +51,21 @@ function setupPlayPauseButton(playControl) {
             playControl.pause();
             this.dataset.playing = 'false';
         }
+    }, false);
+}
+
+function setupSpeedSlider(playControl, phaseVocoderNode) {
+    let $speedSlider = document.querySelector('#speed');
+    $speedSlider.addEventListener('input', function() {
+        playControl.speed = this.value;
+    }, false);
+}
+
+function setupPitchSlider(playControl, phaseVocoderNode) {
+    let pitchFactorParam = phaseVocoderNode.parameters.get('pitchFactor');
+    let $pitchSlider = document.querySelector('#pitch');
+    $pitchSlider.addEventListener('input', function() {
+        pitchFactorParam.value = this.value;
     }, false);
 }
 

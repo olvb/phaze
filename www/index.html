@@ -2,14 +2,28 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Phaze</title>
-    <!--<link rel="stylesheet" type="text/css" href="./style.css" />-->
+    <title>Phaze demo</title>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
     <script src="./main.js"></script>
+    <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script> -->
 </head>
 <body>
-    <div class="timeline" id="timeline"></div>
-    <button data-playing="false" role="switch" aria-checked="false">
-        <span>Play/Pause</span>
-    </button>
-</body>
+    <div class="wrapper">
+        <h1>Phaze : a real-time web audio pitch-shifter</h1>
+        <div>
+            <div class="timeline" id="timeline"></div>
+            <button id="play-pause" data-playing="false" role="switch" aria-checked="false">
+                <span>Play/Pause</span>
+            </button>
+            <label for="speed">
+                <span>Speed</span>
+                <input id="speed" type="range" min="0.5" max="1.5" step="0.01" />
+            </label>
+            <label for="pitch">
+                <span>Pitch</span>
+                <input id="pitch" type="range" min="0.5" max="1.5" step="0.01" />
+            </label>
+        </div>
+    </div>
+    </body>
 </html>
