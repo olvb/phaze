@@ -43,7 +43,8 @@ class PhaseVocoderProcessor extends OLAProcessor {
     }
 
     processOLA(inputs, outputs, parameters) {
-        const pitchFactor = parameters.pitchFactor[0];
+        // no automation, take last value
+        const pitchFactor = parameters.pitchFactor[parameters.pitchFactor.length - 1];
 
         for (var i = 0; i < this.nbInputs; i++) {
             for (var j = 0; j < inputs[i].length; j++) {
