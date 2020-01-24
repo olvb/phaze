@@ -6,13 +6,14 @@ class OLAProcessor extends AudioWorkletProcessor {
         super(options);
 
         // TODO
-        this.nbInputs = 1; //options.numberOfInputs;
-        this.nbOutputs = 1; //options.numberOfOutputs;
+        this.nbInputs = options.numberOfInputs;
+        this.nbOutputs = options.numberOfOutputs;
         this.nbInputChannels = 1; //options.numberOfInputChannels;
         this.nbOutputChannels = 1; //options.numberOfOutputChannels;
 
         this.blockSize = options.processorOptions.blockSize;
-        this.hopSize = WEBAUDIO_BLOCK_SIZE; // TODO
+         // TODO for now, the only support hop size is the size of a web audio block
+        this.hopSize = WEBAUDIO_BLOCK_SIZE;
 
         this.nbOverlaps = this.blockSize / this.hopSize;
 
@@ -36,16 +37,21 @@ class OLAProcessor extends AudioWorkletProcessor {
             }
         }
 
-        // pre-allocate input buffers pointers to send
+        // pre-allocate input buffers to send and head pointers to copy from
+        // (cannot directly send a pointer/subarray because input may be modified)
+        this.inputBuffersHead = new Array(this.nbInputs);
         this.inputBuffersToSend = new Array(this.nbInputs);
         for (var i = 0; i < this.nbInputs; i++) {
+            this.inputBuffersHead[i] = new Array(this.nbInputChannels);
             this.inputBuffersToSend[i] = new Array(this.nbInputChannels);
             for (var j = 0; j < this.nbInputChannels; j++) {
-                this.inputBuffersToSend[i][j] = this.inputBuffers[i][j].subarray(0, this.blockSize);
+                this.inputBuffersHead[i][j] = this.inputBuffers[i][j] .subarray(0, this.blockSize);
+                this.inputBuffersToSend[i][j] = new Float32Array(this.blockSize);
             }
         }
 
         // pre-allocate output buffers to retrieve
+        // (cannot send a pointer/subarray because new output has to be add to exising output)
         this.outputBuffersToRetrieve = new Array(this.nbOutputs);
         for (var i = 0; i < this.nbOutputs; i++) {
             this.outputBuffersToRetrieve[i] = new Array(this.nbOutputChannels);
@@ -105,6 +111,15 @@ class OLAProcessor extends AudioWorkletProcessor {
         }
     }
 
+    /** Copy contents of input buffers to buffer actually sent to process **/
+    prepareInputBuffersToSend() {
+        for (var i = 0; i < this.nbInputs; i++) {
+            for (var j = 0; j < this.nbInputChannels; j++) {
+                this.inputBuffersToSend[i][j].set(this.inputBuffersHead[i][j]);
+            }
+        }
+    }
+
     /** Add contents of output buffers just processed to output buffers **/
     handleOutputBuffersToRetrieve() {
         for (var i = 0; i < this.nbOutputs; i++) {
@@ -119,6 +134,7 @@ class OLAProcessor extends AudioWorkletProcessor {
     process(inputs, outputs, params) {
         this.readInputs(inputs);
         this.shiftInputBuffers();
+        this.prepareInputBuffersToSend()
         this.processOLA(this.inputBuffersToSend, this.outputBuffersToRetrieve, params);
         this.handleOutputBuffersToRetrieve();
         this.writeOutputs(outputs);
