@@ -105,8 +105,9 @@ class PhaseVocoderProcessor extends OLAProcessor {
         }
     }
 
-    /** Shift peaks and regions of influence by shiftFactor */
+    /** Shift peaks and regions of influence by shiftFactor into new specturm */
     shiftPeaks() {
+        // zero-fill new spectrum
         this.freqComplexBufferShifted.fill(0);
 
         for (var i = 0; i < this.nbPeaks; i++) {
@@ -117,9 +118,21 @@ class PhaseVocoderProcessor extends OLAProcessor {
                 break;
             }
 
-            let startOffset = -2;
-            let endOffset = 3;
+            // find region of influence
+            var startIndex = 0;
+            var endIndex = this.fftSize;
+            if (i > 0) {
+                let peakIndexBefore = this.peakIndexes[i - 1];
+                startIndex = peakIndex - Math.floor((peakIndex - peakIndexBefore) / 2);
+            }
+            if (i < this.nbPeaks - 1) {
+                let peakIndexAfter = this.peakIndexes[i + 1];
+                endIndex = peakIndex + Math.ceil((peakIndexAfter - peakIndex) / 2);
+            }
 
+            // shift whole region of influence around peak to shifted peak
+            let startOffset = startIndex - peakIndex;
+            let endOffset = endIndex - peakIndex;
             for (var j = startOffset; j < endOffset; j++) {
                 let binIndex = peakIndex + j;
                 let binIndexShifted = peakIndexShifted + j;
