@@ -37,8 +37,9 @@ class PhaseVocoderProcessor extends OLAProcessor {
     }
 
     processOLA(inputs, outputs, parameters) {
-        for (var i = 0; i < this.nbOutputs; i++) {
-            for (var j = 0; j < this.nbOutputChannels; j++) {
+        for (var i = 0; i < this.nbInputs; i++) {
+            for (var j = 0; j < inputs[i].length; j++) {
+                // big assumption here: output is symetric to input
                 var input = inputs[i][j];
                 var output = outputs[i][j];
 
