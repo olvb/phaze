@@ -11,5 +11,7 @@ Please note that AudioWorkletProcessors are currently (January 2020) only suppor
 
 ```shell
 git clone https://github.com/olvb/phaze && cd phaze
+npm install
 npm run build && npm run start
 ```
+and open http://localhost:8080/ with Chrome
