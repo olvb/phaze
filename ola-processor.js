@@ -56,6 +56,36 @@ class OLAProcessor extends AudioWorkletProcessor {
         }
     }
 
+    /** Read next web audio block to input buffers **/
+    readInputs(inputs) {
+        // when playback is paused, we may stop receiving new samples
+        if (inputs[0][0].length == 0) {
+            for (var i = 0; i < this.nbInputs; i++) {
+                for (var j = 0; j < this.nbInputChannels; j++) {
+                    this.inputBuffers[i][j].fill(0, this.blockSize);
+                }
+            }
+            return;
+        }
+
+        for (var i = 0; i < this.nbInputs; i++) {
+            for (var j = 0; j < this.nbInputChannels; j++) {
+                let webAudioBlock = inputs[i][j];
+                this.inputBuffers[i][j].set(webAudioBlock, this.blockSize);
+            }
+        }
+    }
+
+    /** Write next web audio block from output buffers **/
+    writeOutputs(outputs) {
+        for (var i = 0; i < this.nbInputs; i++) {
+            for (var j = 0; j < this.nbInputChannels; j++) {
+                let webAudioBlock = this.outputBuffers[i][j].subarray(0, WEBAUDIO_BLOCK_SIZE);
+                outputs[i][j].set(webAudioBlock);
+            }
+        }
+    }
+
     /** Shift left content of input buffers to receive new web audio block **/
     shiftInputBuffers() {
         for (var i = 0; i < this.nbInputs; i++) {
@@ -71,26 +101,6 @@ class OLAProcessor extends AudioWorkletProcessor {
             for (var j = 0; j < this.nbOutputChannels; j++) {
                 this.outputBuffers[i][j].copyWithin(0, WEBAUDIO_BLOCK_SIZE);
                 this.outputBuffers[i][j].subarray(this.blockSize - WEBAUDIO_BLOCK_SIZE).fill(0);
-            }
-        }
-    }
-
-    /** Read next web audio block to input buffers **/
-    readInputs(inputs) {
-        for (var i = 0; i < this.nbInputs; i++) {
-            for (var j = 0; j < this.nbInputChannels; j++) {
-                let webAudioBlock = inputs[i][j];
-                this.inputBuffers[i][j].set(webAudioBlock, this.blockSize);
-            }
-        }
-    }
-
-    /** Write next web audio block from output buffers **/
-    writeOutputs(outputs) {
-        for (var i = 0; i < this.nbInputs; i++) {
-            for (var j = 0; j < this.nbInputChannels; j++) {
-                let webAudioBlock = this.outputBuffers[i][j].subarray(0, WEBAUDIO_BLOCK_SIZE);
-                outputs[i][j].set(webAudioBlock);
             }
         }
     }
