@@ -20,7 +20,7 @@ async function init() {
 
     setupPlayPauseButton(playControl);
     setupSpeedSlider(playControl, phaseVocoderNode);
-    setupPitchSlider(playControl, phaseVocoderNode);
+    setupPitchSlider(phaseVocoderNode);
     setupTimeline(buffer, playControl);
 }
 
@@ -55,17 +55,21 @@ function setupPlayPauseButton(playControl) {
 }
 
 function setupSpeedSlider(playControl, phaseVocoderNode) {
+    let pitchFactorParam = phaseVocoderNode.parameters.get('pitchFactor');
     let $speedSlider = document.querySelector('#speed');
     $speedSlider.addEventListener('input', function() {
-        playControl.speed = this.value;
+        speedFactor = parseFloat(this.value);
+        playControl.speed = speedFactor;
+        pitchFactorParam.value = pitchFactor * 1 / speedFactor;
     }, false);
 }
 
-function setupPitchSlider(playControl, phaseVocoderNode) {
+function setupPitchSlider(phaseVocoderNode) {
     let pitchFactorParam = phaseVocoderNode.parameters.get('pitchFactor');
     let $pitchSlider = document.querySelector('#pitch');
     $pitchSlider.addEventListener('input', function() {
-        pitchFactorParam.value = this.value;
+        pitchFactor = parseFloat(this.value);
+        pitchFactorParam.value = pitchFactor * 1 / speedFactor;
     }, false);
 }
 
