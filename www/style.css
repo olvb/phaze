@@ -1,0 +1,45 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+  }
+
+html, body {
+    height: 100%;
+}
+
+body {
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+}
+
+.flex-container {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.controls #play-pause {
+    margin-right: auto;
+}
+
+.controls label {
+  margin-left: 10px;
+}
+
+.controls label span {
+  display: block;
+  text-align: center;
+}

@@ -11,7 +11,7 @@ var speedFactor = 1.0;
 var pitchFactor = 1.0;
 
 async function init() {
-    const buffer = await loader.load('./sample_m.wav');
+    const buffer = await loader.load('./sample_st.wav');
 
     let [playerEngine, phaseVocoderNode] = await setupEngine(buffer);
     let playControl = new wavesAudio.PlayControl(playerEngine);
@@ -39,6 +39,8 @@ async function setupEngine(buffer) {
 
 function setupPlayPauseButton(playControl) {
     let $playButton = document.querySelector('#play-pause');
+    let $playIcon = $playButton.querySelector('.play');
+    let $pauseIcon = $playButton.querySelector('.pause');
     $playButton.addEventListener('click', function() {
         if (audioContext.state === 'suspended') {
             audioContext.resume();
@@ -47,9 +49,13 @@ function setupPlayPauseButton(playControl) {
         if (this.dataset.playing === 'false') {
             playControl.start();
             this.dataset.playing = 'true';
+            $playIcon.style.display = 'none';
+            $pauseIcon.style.display = 'inline';
         } else if (this.dataset.playing === 'true') {
             playControl.pause();
             this.dataset.playing = 'false';
+            $pauseIcon.style.display = 'none';
+            $playIcon.style.display = 'inline';
         }
     }, false);
 }
@@ -57,19 +63,23 @@ function setupPlayPauseButton(playControl) {
 function setupSpeedSlider(playControl, phaseVocoderNode) {
     let pitchFactorParam = phaseVocoderNode.parameters.get('pitchFactor');
     let $speedSlider = document.querySelector('#speed');
+    let $valueLabel = document.querySelector('#speed-value');
     $speedSlider.addEventListener('input', function() {
         speedFactor = parseFloat(this.value);
         playControl.speed = speedFactor;
         pitchFactorParam.value = pitchFactor * 1 / speedFactor;
+        $valueLabel.innerHTML = speedFactor.toFixed(2);
     }, false);
 }
 
 function setupPitchSlider(phaseVocoderNode) {
     let pitchFactorParam = phaseVocoderNode.parameters.get('pitchFactor');
     let $pitchSlider = document.querySelector('#pitch');
+    let $valueLabel = document.querySelector('#pitch-value');
     $pitchSlider.addEventListener('input', function() {
         pitchFactor = parseFloat(this.value);
         pitchFactorParam.value = pitchFactor * 1 / speedFactor;
+        $valueLabel.innerHTML = pitchFactor.toFixed(2);
     }, false);
 }
 
