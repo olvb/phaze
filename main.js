@@ -9,7 +9,7 @@ let audioContext = wavesAudio.audioContext;
 let loader = new wavesLoaders.AudioBufferLoader();
 
 async function init() {
-    const buffer = await loader.load('./sample.wav');
+    const buffer = await loader.load('./sample_m.wav');
 
     let playerEngine = await setupEngine(buffer);
     let playControl = new wavesAudio.PlayControl(playerEngine);
