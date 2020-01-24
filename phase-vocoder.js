@@ -5,6 +5,14 @@ const FFT = require('fft.js');
 
 const BUFFERED_BLOCK_SIZE = 2048;
 
+function genHannWindow(length) {
+    let win = new Float32Array(length);
+    for (var i = 0; i < length; i++) {
+        win[i] = 0.5 * (1 - Math.cos(2 * Math.PI * i / length));
+    }
+    return win;
+}
+
 class PhaseVocoderProcessor extends OLAProcessor {
     constructor(options) {
         options.processorOptions = {
@@ -16,6 +24,7 @@ class PhaseVocoderProcessor extends OLAProcessor {
         this.shiftFactor = 1.25;
         this.timeCursor = 0;
 
+        this.hannWindow = genHannWindow(this.blockSize);
 
         // prepare FFT and pre-allocate buffers
         this.fft = new FFT(this.fftSize);
@@ -33,6 +42,8 @@ class PhaseVocoderProcessor extends OLAProcessor {
                 var input = inputs[i][j];
                 var output = outputs[i][j];
 
+                this.applyHannWindow(input);
+
                 this.fft.realTransform(this.freqComplexBuffer, input);
 
                 this.computeMagnitudes();
@@ -42,12 +53,22 @@ class PhaseVocoderProcessor extends OLAProcessor {
                 this.fft.completeSpectrum(this.freqComplexBufferShifted);
                 this.fft.inverseTransform(this.timeComplexBuffer, this.freqComplexBufferShifted);
                 this.fft.fromComplexArray(this.timeComplexBuffer, output);
+
+                this.applyHannWindow(output);
             }
         }
 
         this.timeCursor += this.hopSize;
     }
 
+    /** Apply Hann window in-place */
+    applyHannWindow(input) {
+        for (var i = 0; i < this.blockSize; i++) {
+            input[i] = input[i] * this.hannWindow[i];
+        }
+    }
+
+    /** Compute squared magnitudes for peak finding **/
     computeMagnitudes() {
         var i = 0, j = 0;
         while (i < this.magnitudes.length) {
@@ -60,6 +81,7 @@ class PhaseVocoderProcessor extends OLAProcessor {
         }
     }
 
+    /** Find peaks in spectrum magnitudes **/
     findPeaks() {
         this.nbPeaks = 0;
         var i = 2;
@@ -83,6 +105,7 @@ class PhaseVocoderProcessor extends OLAProcessor {
         }
     }
 
+    /** Shift peaks and regions of influence by shiftFactor */
     shiftPeaks() {
         this.freqComplexBufferShifted.fill(0);
 
