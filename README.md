@@ -9,6 +9,8 @@ Please note that AudioWorkletProcessors are currently (January 2020) only suppor
 
 ### Installation and demo
 
+Visit the online demo [here](https://olvb.github.io/phaze/www/), or run
+
 ```shell
 git clone https://github.com/olvb/phaze && cd phaze
 npm install
