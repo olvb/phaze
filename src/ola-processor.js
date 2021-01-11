@@ -90,7 +90,7 @@ class OLAProcessor extends AudioWorkletProcessor {
     /** Read next web audio block to input buffers **/
     readInputs(inputs) {
         // when playback is paused, we may stop receiving new samples
-        if (inputs[0][0].length == 0) {
+        if (inputs[0].length && inputs[0][0].length == 0) {
             for (var i = 0; i < this.nbInputs; i++) {
                 for (var j = 0; j < this.inputBuffers[i].length; j++) {
                     this.inputBuffers[i][j].fill(0, this.blockSize);
