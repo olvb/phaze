@@ -23,14 +23,14 @@
   "author": "Mano, Gon & Olivier",
   "license": "The Unlicense",
   "dependencies": {
-    "fft.js": "^4.0.3",
-    "http-server": "^0.12.3",
-    "waves-audio": "^0.5.2",
-    "waves-loaders": "^0.1.5",
-    "waves-ui": "github:wavesjs/ui"
+    "fft.js": "^4.0.3"
   },
   "devDependencies": {
     "browserify": "^16.5.0",
-    "watchify": "^3.11.1"
+    "http-server": "^0.12.3",
+    "watchify": "^3.11.1",
+    "waves-audio": "^0.5.2",
+    "waves-loaders": "^0.1.5",
+    "waves-ui": "github:wavesjs/ui"
   }
 }
