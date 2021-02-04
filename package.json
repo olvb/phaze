@@ -1,17 +1,24 @@
 {
-  "name": "phaze",
+  "name": "phaze-vocoder",
   "version": "1.0.0",
   "description": "A phase vocoder for the browser",
-  "main": "index.js",
+  "main": "www/phase-vocoder.js",
+  "files": [
+    "www/phase-vocoder.js",
+    "www/phase-vocoder.min.js",
+    "README.md"
+  ],
   "scripts": {
     "build-main": "browserify src/main.js -o www/main.js",
     "build-audio-worklet": "browserify src/phase-vocoder.js -o www/phase-vocoder.js",
+    "build-min": "browserify src/phase-vocoder.js | terser --compress --mangle -o www/phase-vocoder.min.js",
     "watch-main": "watchify src/main.js -o www/main.js --debug --verbose ",
     "watch-audio-worklet": "watchify src/phase-vocoder.js -o www/phase-vocoder.js --debug --verbose",
     "build": "npm run build-main | npm run build-audio-worklet",
     "watch": "npm run watch-main | npm run watch-audio-worklet",
     "start": "http-server www/",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "npm run build-audio-worklet && npm run build-min && npm publish"
   },
   "keywords": [
     "phase",
@@ -23,14 +30,15 @@
   "author": "Mano, Gon & Olivier",
   "license": "The Unlicense",
   "dependencies": {
-    "fft.js": "^4.0.3",
-    "http-server": "^0.12.3",
-    "waves-audio": "^0.5.2",
-    "waves-loaders": "^0.1.5",
-    "waves-ui": "github:wavesjs/ui"
+    "fft.js": "^4.0.3"
   },
   "devDependencies": {
     "browserify": "^16.5.0",
-    "watchify": "^3.11.1"
+    "http-server": "^0.12.3",
+    "watchify": "^3.11.1",
+    "terser": "^5.5.1",
+    "waves-audio": "^0.5.2",
+    "waves-loaders": "^0.1.5",
+    "waves-ui": "github:wavesjs/ui"
   }
 }
