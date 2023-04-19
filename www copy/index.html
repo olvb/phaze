@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Phaze - A real-time web audio pitch-shifte</title>
+        <link rel="stylesheet" type="text/css" href="./style.css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <script src="./main.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
+            integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <script>
+            window.addEventListener("message", message => {
+                //alert("uhmm: " + message.data)
+                if (window.ReactNativeWebView) {
+                    window.ReactNativeWebView.postMessage('Hi from Client')
+                }
+
+            });
+        </script>
+        <div class="wrapper">
+            <h1>Phaze: a real-time web audio pitch-shifter</h1>
+            <input id="link" placeholder="Insert youtube Link" />
+            <button id="start" data-playing="false" aria-checked="false">
+                F*CK ME HARD
+            </button>
+            <div id="no-worklet" style="display: none;">Audio Worklet API not supported by you browser, try a recent Chrome version.</div>
+            <div class="timeline" id="timeline"></div>
+            <div class="controls">
+                <button id="play-pause" data-playing="false" role="switch" aria-checked="false">
+                    <span class="play" style="font-size: 2em;"><i class="fas fa-play-circle"></i></span>
+                    <span class="pause" style="font-size: 2em; display: none;"><i class="fas fa-pause-circle"></i></span>
+                </button>
+                <label for="speed">
+                    <span>Speed</span>
+                    <input id="speed" type="range" min="0.5" max="1.5" step="0.01" />
+                    <span id="speed-value">1.00</span>
+                </label>
+                <label for="pitch">
+                    <span>Pitch</span>
+                    <input id="pitch" type="range" min="0.5" max="1.5" step="0.01" />
+                    <span id="pitch-value">1.00</span>
+                </label>
+            </div>
+        </div>
+    </body>
+
+</html>

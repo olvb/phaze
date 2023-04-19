@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+    <body>
+        <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+        <script>
+
+        </script>
+        <script>
+
+            window.addEventListener("message", handleEvent)
+
+
+            //var socket = io();
+            function handleEvent(message) {
+                console.log("logging: ", message);
+                //alert("message: ", message.data, message) // Sending Luuuuv
+                alert("message: " + message + message.data)
+                //socket.emit('chat message', { start: "HI" });
+            }
+        </script>
+        <div class="wrapper">
+            <h1>Phaze: a real-time web audio pitch-shifter</h1>
+            <button type='button' onclick="handleEvent({data: 'hi'})">CLICK MI</button>
+        </div>
+    </body>
+
+</html>
