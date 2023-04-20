@@ -70,6 +70,9 @@ async function handleLocalBuffer() {
   setupSpeedSlider(playControl, phaseVocoderNode);
   setupPitchSlider(phaseVocoderNode);
   setupTimeline(buffer, playControl);
+
+  let $controls = document.querySelector('.controls');
+  $controls.style.display = 'flex';
 }
 
 async function handleAudioBuffer(buffer) {
@@ -87,6 +90,9 @@ async function handleAudioBuffer(buffer) {
   setupSpeedSlider(playControl, phaseVocoderNode);
   setupPitchSlider(phaseVocoderNode);
   setupTimeline(buffer, playControl);
+
+  let $controls = document.querySelector('.controls');
+  $controls.style.display = 'flex';
 }
 
 function handleNoWorklet() {
@@ -173,7 +179,8 @@ function setupTimeline(buffer, playControl) {
   let $timeline = document.querySelector('#timeline');
 
   const width = $timeline.getBoundingClientRect().width;
-  const height = 200;
+  //const height = document.querySelector('.workletContainer').height;
+  const height = Math.trunc((width * 3) / 8);
   const duration = buffer.duration;
   const pixelsPerSecond = width / duration;
 

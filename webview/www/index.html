@@ -22,21 +22,27 @@
             });
         </script>
         <div class="wrapper">
-            <h1>Audio Title</h1>
-            <h3>Interpret</h3>
-            <input id="link" placeholder="Insert youtube Link" />
-            <button id="start" data-playing="false" aria-checked="false">
-                LOAD STREAM
-            </button>
-            <button id="start-local" data-playing="false" aria-checked="false">
-                START LOCAL
-            </button>
-            <div id="no-worklet" style="display: none;">Audio Worklet API not supported by you browser, try a recent Chrome version.</div>
-            <div class="timeline" id="timeline"></div>
+            <div class="trackHeader">
+                <h1>Audio Title</h1>
+                <h3>Interpret</h3>
+                <input id="link" style="font-size: 1rem;" placeholder="Insert youtube Link" />
+                <button id="start" style="font-size: 1.3rem;" data-playing="false" aria-checked="false">
+                    LOAD STREAM
+                </button>
+                <button id="start-local" style="font-size: 1.3rem;" data-playing="false" aria-checked="false">
+                    START LOCAL
+                </button>
+            </div>
+
+            <div class="workletContainer">
+                <div id="no-worklet" style="display: none;">Audio Worklet API not supported by you browser, try a recent Chrome version.</div>
+                <div class="timeline" id="timeline"></div>
+            </div>
+
             <div class="controls">
                 <button id="play-pause" data-playing="false" role="switch" aria-checked="false">
-                    <span class="play" style="font-size: 2em;"><i class="fas fa-play-circle"></i></span>
-                    <span class="pause" style="font-size: 2em; display: none;"><i class="fas fa-pause-circle"></i></span>
+                    <span class="play" style="font-size: 3rem;"><i class="fas fa-play-circle"></i></span>
+                    <span class="pause" style="font-size: 3rem; display: none;"><i class="fas fa-pause-circle"></i></span>
                 </button>
                 <label for="speed">
                     <span>Speed</span>
