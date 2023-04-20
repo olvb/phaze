@@ -4,9 +4,12 @@ import { useRef, useState } from 'react';
 import { WebView } from 'react-native-webview';
 import VideoList from './components/VideoList';
 import VideoSearch from './components/VideoSearch';
+import { WEBVIEW_URL } from '@env';
 
 export default function App() {
   [videos, setVideos] = useState([]);
+  [audioView, setAudioView] = useState(false);
+
   currentVideos = videos.slice();
   const webViewRef = useRef();
   // const [cacheBuster, setCacheBuster] = useState(Date.now());
@@ -18,40 +21,47 @@ export default function App() {
 
   function handleSelect(id) {
     console.log('selected video', id);
+    setAudioView(!audioView);
+    console.log(audioView);
   }
 
   function handleSubmit(videos) {
     setVideos(videos);
-    // console.log(videos);
+  }
+  if (audioView) {
+    return (
+      <View style={styles.container}>
+        <WebView
+          style={styles.webview}
+          source={{ uri: WEBVIEW_URL }}
+          ref={(ref) => (webViewRef.current = ref)}
+          incognito={true}
+          onMessage={(event) => {
+            console.log('received Message: ', event.nativeEvent.data); // Client received data
+          }}
+        />
+        <Button
+          title="Send Data"
+          onPress={() => {
+            webViewRef.current.postMessage('Just Luv');
+          }}
+        />
+        <Button
+          title="Reload WebView"
+          onPress={() => {
+            handleReload();
+          }}
+        />
+        <StatusBar style="auto" />
+      </View>
+    );
+  } else {
   }
   return (
-    //
-
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to Pitch Perfect</Text>
       <VideoSearch onSubmit={handleSubmit} />
       <VideoList videos={currentVideos} onSelect={handleSelect} />
-      {/* <WebView
-        style={styles.webview}
-        source={{ uri: `http://127.0.0.1:8080/` }}
-        ref={(ref) => (webViewRef.current = ref)}
-        incognito={true} // that did it!
-        onMessage={(event) => {
-          console.log('received Message: ', event.nativeEvent.data); // Client received data
-        }}
-      />
-      <Button
-        title="Send Data"
-        onPress={() => {
-          webViewRef.current.postMessage('Just Luv');
-        }}
-      />
-      <Button
-        title="Reload WebView"
-        onPress={() => {
-          handleReload();
-        }}
-      /> */}
       <StatusBar style="auto" />
     </View>
   );
