@@ -2,8 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';
 import { useRef, useState } from 'react';
 import { WebView } from 'react-native-webview';
+import VideoList from './components/VideoList';
+import VideoSearch from './components/VideoSearch';
 
 export default function App() {
+  [videos, setVideos] = useState([]);
+  currentVideos = videos.slice();
   const webViewRef = useRef();
   // const [cacheBuster, setCacheBuster] = useState(Date.now());
   function handleReload() {
@@ -11,12 +15,23 @@ export default function App() {
     //webViewRef.current.clearCache(true);
     webViewRef.current.reload();
   }
+
+  function handleSelect(id) {
+    console.log('selected video', id);
+  }
+
+  function handleSubmit(videos) {
+    setVideos(videos);
+    // console.log(videos);
+  }
   return (
     //
 
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to Pitch Perfect</Text>
-      <WebView
+      <VideoSearch onSubmit={handleSubmit} />
+      <VideoList videos={currentVideos} onSelect={handleSelect} />
+      {/* <WebView
         style={styles.webview}
         source={{ uri: `http://127.0.0.1:8080/` }}
         ref={(ref) => (webViewRef.current = ref)}
@@ -36,7 +51,7 @@ export default function App() {
         onPress={() => {
           handleReload();
         }}
-      />
+      /> */}
       <StatusBar style="auto" />
     </View>
   );
