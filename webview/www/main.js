@@ -22551,6 +22551,9 @@ var pitchFactor = 1.0;
 function init() {
   let $start = document.querySelector('#start');
   $start.addEventListener('click', loadTrack);
+
+  let $startLocal = document.querySelector('#start-local');
+  $startLocal.addEventListener('click', handleLocalBuffer);
 }
 
 function stream2buffer(stream) {
@@ -22579,6 +22582,19 @@ async function handleBuffer(event) {
   console.log(buffer);
   const audioBuffer = await audioContext.decodeAudioData(buffer);
   handleAudioBuffer(audioBuffer);
+}
+
+async function handleLocalBuffer() {
+  const buffer = await loader.load('./bossaura.mp3');
+  let [playerEngine, phaseVocoderNode] = await setupEngine(buffer);
+  let playControl = new wavesAudio.PlayControl(playerEngine);
+  playControl.setLoopBoundaries(0, buffer.duration);
+  playControl.loop = true;
+
+  setupPlayPauseButton(playControl);
+  setupSpeedSlider(playControl, phaseVocoderNode);
+  setupPitchSlider(phaseVocoderNode);
+  setupTimeline(buffer, playControl);
 }
 
 async function handleAudioBuffer(buffer) {
