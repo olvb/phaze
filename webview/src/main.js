@@ -4,17 +4,16 @@ const wavesAudio = require('waves-audio');
 const wavesUI = require('waves-ui');
 const wavesLoaders = require('waves-loaders');
 const Sockette = require('sockette');
-// const youtubeDL = require('./youtube-dl.js');
 
 const ws = new Sockette('ws://localhost:3001', {
   timeout: 5e3,
   maxAttempts: 10,
-  onopen: (e) => console.log('Connected!', e),
+  //onopen: (e) => console.log('Connected!', e),
   onmessage: (e) => handleBuffer(e),
-  onreconnect: (e) => console.log('Reconnecting...', e),
-  onmaximum: (e) => console.log('Stop Attempting!', e),
-  onclose: (e) => console.log('Closed!', e),
-  onerror: (e) => console.log('Error:', e),
+  //onreconnect: (e) => console.log('Reconnecting...', e),
+  //onmaximum: (e) => console.log('Stop Attempting!', e),
+  //onclose: (e) => console.log('Closed!', e),
+  //onerror: (e) => console.log('Error:', e),
 });
 
 let audioContext = wavesAudio.audioContext;
@@ -29,21 +28,51 @@ function init() {
 
   let $startLocal = document.querySelector('#start-local');
   $startLocal.addEventListener('click', handleLocalBuffer);
+
+  let $startLocalHTML = document.querySelector('#start-local-html5');
+  $startLocalHTML.addEventListener('click', processHTMLAudio);
 }
 
-function stream2buffer(stream) {
-  //stream.forEach((e) => console.log(e));
-  console.log(stream.arrayBuffer());
-
-  return new Promise((resolve, reject) => {
-    const _buf = [];
-    console.log(stream);
-
-    stream.on('data', (chunk) => _buf.push(chunk));
-    stream.on('end', () => resolve(Buffer.concat(_buf)));
-    stream.on('error', (err) => reject(err));
+async function _processHTMLAudio() {
+  const buffer = await loader.load('./bossaura.mp3');
+  const granularEngine = new wavesAudio.GranularEngine({
+    buffer: buffer,
+    cyclic: true,
   });
+  const audio = new Audio('./bossaura.mp3');
+  audio.play();
+  // load the audio file into the GranularEngine
+
+  // set the pitch and speed parameters of the GranularEngine
+  granularEngine.gain = 1;
+  // granularEngine.pitch = 50;
+  // granularEngine.position = 0;
+
+  // connect the GranularEngine to the AudioContext
+  granularEngine.connect(audioContext.destination);
+  let playControl = new wavesAudio.PlayControl(granularEngine);
+
+  // start the audio playback
+  playControl.start();
 }
+
+async function processHTMLAudio() {
+  handleLocalBuffer();
+}
+
+// function stream2buffer(stream) {
+//   //stream.forEach((e) => console.log(e));
+//   console.log(stream.arrayBuffer());
+
+//   return new Promise((resolve, reject) => {
+//     const _buf = [];
+//     console.log(stream);
+
+//     stream.on('data', (chunk) => _buf.push(chunk));
+//     stream.on('end', () => resolve(Buffer.concat(_buf)));
+//     stream.on('error', (err) => reject(err));
+//   });
+// }
 
 async function loadTrack() {
   const $link = document.querySelector('#link');
@@ -71,6 +100,9 @@ async function handleLocalBuffer() {
   setupPitchSlider(phaseVocoderNode);
   setupTimeline(buffer, playControl);
 
+  console.log(playerEngine.buffer);
+  console.log(phaseVocoderNode);
+
   let $controls = document.querySelector('.controls');
   $controls.style.display = 'flex';
 }
@@ -80,7 +112,6 @@ async function handleAudioBuffer(buffer) {
     handleNoWorklet();
     return;
   }
-  //const buffer = await loader.load('./bossaura.mp3');
   let [playerEngine, phaseVocoderNode] = await setupEngine(buffer);
   let playControl = new wavesAudio.PlayControl(playerEngine);
   playControl.setLoopBoundaries(0, buffer.duration);
@@ -108,6 +139,16 @@ async function setupEngine(buffer) {
   let playerEngine = new wavesAudio.PlayerEngine(buffer);
   playerEngine.buffer = buffer;
   playerEngine.cyclic = true;
+  // class MyAudioWorkletProcessor extends AudioWorkletProcessor {
+  //   process(inputs, outputs, parameters) {
+  //     // Process audio and write to outputs[0]
+  //     const output = outputs[0];
+  //     // ...
+  //     return true;
+  //   }
+  // }
+
+  // registerProcessor('my-audio-worklet-processor', MyAudioWorkletProcessor);
 
   await audioContext.audioWorklet.addModule('phase-vocoder.js');
   let phaseVocoderNode = new AudioWorkletNode(audioContext, 'phase-vocoder-processor');
@@ -169,6 +210,20 @@ function setupPitchSlider(phaseVocoderNode) {
     function () {
       pitchFactor = parseFloat(this.value);
       pitchFactorParam.value = (pitchFactor * 1) / speedFactor;
+
+      if (this.value < 0.91) {
+        // Extract the output buffer as an AudioBuffer
+        console.log(phaseVocoderNode.Prototype);
+
+        // const buffer = new AudioBuffer({
+        //   numberOfChannels: phaseVocoderNode.outputBuffer.numberOfChannels,
+        //   length: phaseVocoderNode.outputBuffer.length,
+        //   sampleRate: phaseVocoderNode.context.sampleRate,
+        // });
+        // for (let i = 0; i < phaseVocoderNode.outputBuffer.numberOfChannels; i++) {
+        //   buffer.copyToChannel(phaseVocoderNode.outputBuffer.getChannelData(i), i);
+        // }
+      }
       $valueLabel.innerHTML = pitchFactor.toFixed(2);
     },
     false
