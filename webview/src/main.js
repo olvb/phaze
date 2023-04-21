@@ -4,7 +4,7 @@ const wavesAudio = require('waves-audio');
 const wavesUI = require('waves-ui');
 const wavesLoaders = require('waves-loaders');
 const Sockette = require('sockette');
-const Tone = require('tone');
+//const Tone = require('tone');
 
 const ws = new Sockette('ws://localhost:3001', {
   timeout: 5e3,
@@ -29,34 +29,32 @@ function init() {
 
   let $startLocal = document.querySelector('#start-local');
   $startLocal.addEventListener('click', handleLocalBuffer);
-
-  let $startLocalTONEJS = document.querySelector('#start-local-tonejs');
-  $startLocalTONEJS.addEventListener('click', processTONEJSAudio);
 }
 
-async function processTONEJSAudio() {
-  await Tone.start();
-  const player = new Tone.GrainPlayer({
-    url: './bossaura.mp3',
-    grainSize: 1,
-    overlap: 1,
-    detune: -100,
-  });
-  await Tone.loaded();
+// Will keep this in case anything breaks, but as of now Tone JS is not as good as the phazer package
+// async function processTONEJSAudio() {
+//   await Tone.start();
+//   const player = new Tone.GrainPlayer({
+//     url: './bossaura.mp3',
+//     grainSize: 1,
+//     overlap: 1,
+//     detune: -100,
+//   });
+//   await Tone.loaded();
 
-  // Connect the GrainPlayer to the Tone.js output
-  player.toDestination();
-  player.start();
-  console.log(player.buffer);
+//   // Connect the GrainPlayer to the Tone.js output
+//   player.toDestination();
+//   player.start();
+//   console.log(player.buffer);
 
-  // // start the audio playback
-  document.querySelector('#play').addEventListener('click', async () => {
-    // player.detune = -200;
-    console.log(player.buffer);
-    console.log(player);
-    player.start();
-  });
-}
+//   // // start the audio playback
+//   document.querySelector('#play').addEventListener('click', async () => {
+//     // player.detune = -200;
+//     console.log(player.buffer);
+//     console.log(player);
+//     player.start();
+//   });
+// }
 
 // function stream2buffer(stream) {
 //   //stream.forEach((e) => console.log(e));
@@ -98,9 +96,6 @@ async function handleLocalBuffer() {
   setupPitchSlider(phaseVocoderNode);
   setupTimeline(buffer, playControl);
 
-  console.log(playerEngine.buffer);
-  console.log(phaseVocoderNode);
-
   let $controls = document.querySelector('.controls');
   $controls.style.display = 'flex';
 }
@@ -137,16 +132,6 @@ async function setupEngine(buffer) {
   let playerEngine = new wavesAudio.PlayerEngine(buffer);
   playerEngine.buffer = buffer;
   playerEngine.cyclic = true;
-  // class MyAudioWorkletProcessor extends AudioWorkletProcessor {
-  //   process(inputs, outputs, parameters) {
-  //     // Process audio and write to outputs[0]
-  //     const output = outputs[0];
-  //     // ...
-  //     return true;
-  //   }
-  // }
-
-  // registerProcessor('my-audio-worklet-processor', MyAudioWorkletProcessor);
 
   await audioContext.audioWorklet.addModule('phase-vocoder.js');
   let phaseVocoderNode = new AudioWorkletNode(audioContext, 'phase-vocoder-processor');
