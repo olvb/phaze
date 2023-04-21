@@ -1,4 +1,3 @@
-const Search = require('youtube-api-search');
 import { StyleSheet, Image, Text, View, TouchableHighlight } from 'react-native';
 // TODO: doing a search like that will bear the risk that 'audio only'
 // of the video doesn't exist when using YTDL to stream the audio later

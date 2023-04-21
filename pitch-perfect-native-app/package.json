@@ -6,7 +6,7 @@
     "start": "expo start",
     "tunnel": "expo start --tunnel",
     "android": "expo start --android",
-    "ios": "expo start --ios",
+    "ios": "expo start --ios --clear",
     "web": "expo start --web"
   },
   "dependencies": {
@@ -19,7 +19,7 @@
     "react-native": "0.71.6",
     "react-native-dotenv": "^3.4.8",
     "react-native-webview": "11.26.0",
-    "youtube-api-search": "^0.0.5"
+    "youtube-search": "^1.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
