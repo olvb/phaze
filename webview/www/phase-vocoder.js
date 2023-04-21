@@ -676,7 +676,6 @@ class OLAProcessor extends AudioWorkletProcessor {
     this.handleOutputBuffersToRetrieve();
     this.writeOutputs(outputs);
     this.shiftOutputBuffers();
-    const output = outputs[0];
 
     return true;
   }

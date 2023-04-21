@@ -17,6 +17,7 @@
     "build": "npm run build-main | npm run build-audio-worklet",
     "watch": "npm run watch-main | npm run watch-audio-worklet",
     "start": "http-server www/",
+    "build-start": "npm run build && npm run start",
     "start-server": "nodemon ./server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish": "npm run build-audio-worklet && npm run build-min && npm publish"
@@ -38,6 +39,7 @@
     "nodemon": "^2.0.22",
     "socket.io": "^4.6.1",
     "sockette": "^2.0.6",
+    "tone": "^14.7.77",
     "ws": "^8.13.0",
     "ytdl-core": "^4.11.4"
   },

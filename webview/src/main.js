@@ -4,6 +4,7 @@ const wavesAudio = require('waves-audio');
 const wavesUI = require('waves-ui');
 const wavesLoaders = require('waves-loaders');
 const Sockette = require('sockette');
+const Tone = require('tone');
 
 const ws = new Sockette('ws://localhost:3001', {
   timeout: 5e3,
@@ -29,35 +30,32 @@ function init() {
   let $startLocal = document.querySelector('#start-local');
   $startLocal.addEventListener('click', handleLocalBuffer);
 
-  let $startLocalHTML = document.querySelector('#start-local-html5');
-  $startLocalHTML.addEventListener('click', processHTMLAudio);
+  let $startLocalTONEJS = document.querySelector('#start-local-tonejs');
+  $startLocalTONEJS.addEventListener('click', processTONEJSAudio);
 }
 
-async function _processHTMLAudio() {
-  const buffer = await loader.load('./bossaura.mp3');
-  const granularEngine = new wavesAudio.GranularEngine({
-    buffer: buffer,
-    cyclic: true,
+async function processTONEJSAudio() {
+  await Tone.start();
+  const player = new Tone.GrainPlayer({
+    url: './bossaura.mp3',
+    grainSize: 1,
+    overlap: 1,
+    detune: -100,
   });
-  const audio = new Audio('./bossaura.mp3');
-  audio.play();
-  // load the audio file into the GranularEngine
+  await Tone.loaded();
 
-  // set the pitch and speed parameters of the GranularEngine
-  granularEngine.gain = 1;
-  // granularEngine.pitch = 50;
-  // granularEngine.position = 0;
+  // Connect the GrainPlayer to the Tone.js output
+  player.toDestination();
+  player.start();
+  console.log(player.buffer);
 
-  // connect the GranularEngine to the AudioContext
-  granularEngine.connect(audioContext.destination);
-  let playControl = new wavesAudio.PlayControl(granularEngine);
-
-  // start the audio playback
-  playControl.start();
-}
-
-async function processHTMLAudio() {
-  handleLocalBuffer();
+  // // start the audio playback
+  document.querySelector('#play').addEventListener('click', async () => {
+    // player.detune = -200;
+    console.log(player.buffer);
+    console.log(player);
+    player.start();
+  });
 }
 
 // function stream2buffer(stream) {
@@ -211,19 +209,6 @@ function setupPitchSlider(phaseVocoderNode) {
       pitchFactor = parseFloat(this.value);
       pitchFactorParam.value = (pitchFactor * 1) / speedFactor;
 
-      if (this.value < 0.91) {
-        // Extract the output buffer as an AudioBuffer
-        console.log(phaseVocoderNode.Prototype);
-
-        // const buffer = new AudioBuffer({
-        //   numberOfChannels: phaseVocoderNode.outputBuffer.numberOfChannels,
-        //   length: phaseVocoderNode.outputBuffer.length,
-        //   sampleRate: phaseVocoderNode.context.sampleRate,
-        // });
-        // for (let i = 0; i < phaseVocoderNode.outputBuffer.numberOfChannels; i++) {
-        //   buffer.copyToChannel(phaseVocoderNode.outputBuffer.getChannelData(i), i);
-        // }
-      }
       $valueLabel.innerHTML = pitchFactor.toFixed(2);
     },
     false
