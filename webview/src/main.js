@@ -9,12 +9,12 @@ const Sockette = require('sockette');
 const ws = new Sockette('ws://localhost:3001', {
   timeout: 5e3,
   maxAttempts: 10,
-  //onopen: (e) => console.log('Connected!', e),
+  onopen: (e) => console.log('Connected', e),
   onmessage: (e) => handleBuffer(e),
-  //onreconnect: (e) => console.log('Reconnecting...', e),
-  //onmaximum: (e) => console.log('Stop Attempting!', e),
-  //onclose: (e) => console.log('Closed!', e),
-  //onerror: (e) => console.log('Error:', e),
+  onreconnect: (e) => console.log('Reconnecting...', e),
+  onmaximum: (e) => console.log('Stop Attempting!', e),
+  onclose: (e) => console.log('Closed!', e),
+  onerror: (e) => console.log('Error:', e),
 });
 
 let audioContext = wavesAudio.audioContext;
@@ -31,49 +31,12 @@ function init() {
   $startLocal.addEventListener('click', handleLocalBuffer);
 }
 
-// Will keep this in case anything breaks, but as of now Tone JS is not as good as the phazer package
-// async function processTONEJSAudio() {
-//   await Tone.start();
-//   const player = new Tone.GrainPlayer({
-//     url: './bossaura.mp3',
-//     grainSize: 1,
-//     overlap: 1,
-//     detune: -100,
-//   });
-//   await Tone.loaded();
-
-//   // Connect the GrainPlayer to the Tone.js output
-//   player.toDestination();
-//   player.start();
-//   console.log(player.buffer);
-
-//   // // start the audio playback
-//   document.querySelector('#play').addEventListener('click', async () => {
-//     // player.detune = -200;
-//     console.log(player.buffer);
-//     console.log(player);
-//     player.start();
-//   });
+// async function loadTrack() {
+//   //const $link = document.querySelector('#link');
+//   //ws.send($link.value);
+//   alert('message: ', videoId);
+//   ws.send('https://www.youtube.com/watch?v=R5i3tAcCcd0');
 // }
-
-// function stream2buffer(stream) {
-//   //stream.forEach((e) => console.log(e));
-//   console.log(stream.arrayBuffer());
-
-//   return new Promise((resolve, reject) => {
-//     const _buf = [];
-//     console.log(stream);
-
-//     stream.on('data', (chunk) => _buf.push(chunk));
-//     stream.on('end', () => resolve(Buffer.concat(_buf)));
-//     stream.on('error', (err) => reject(err));
-//   });
-// }
-
-async function loadTrack() {
-  const $link = document.querySelector('#link');
-  ws.send($link.value);
-}
 
 async function handleBuffer(event) {
   const audioContext = new AudioContext();
@@ -251,3 +214,49 @@ function setupTimeline(buffer, playControl) {
 }
 
 window.addEventListener('load', init);
+
+window.addEventListener('message', (message) => {
+  ws.send('https://www.youtube.com/watch?v=R5i3tAcCcd0');
+  if (window.ReactNativeWebView) {
+    window.ReactNativeWebView.postMessage('Passed on data to server');
+  }
+});
+
+// Will keep this in case anything breaks, but as of now Tone JS is not as good as the phazer package
+// async function processTONEJSAudio() {
+//   await Tone.start();
+//   const player = new Tone.GrainPlayer({
+//     url: './bossaura.mp3',
+//     grainSize: 1,
+//     overlap: 1,
+//     detune: -100,
+//   });
+//   await Tone.loaded();
+
+//   // Connect the GrainPlayer to the Tone.js output
+//   player.toDestination();
+//   player.start();
+//   console.log(player.buffer);
+
+//   // // start the audio playback
+//   document.querySelector('#play').addEventListener('click', async () => {
+//     // player.detune = -200;
+//     console.log(player.buffer);
+//     console.log(player);
+//     player.start();
+//   });
+// }
+
+// function stream2buffer(stream) {
+//   //stream.forEach((e) => console.log(e));
+//   console.log(stream.arrayBuffer());
+
+//   return new Promise((resolve, reject) => {
+//     const _buf = [];
+//     console.log(stream);
+
+//     stream.on('data', (chunk) => _buf.push(chunk));
+//     stream.on('end', () => resolve(Buffer.concat(_buf)));
+//     stream.on('error', (err) => reject(err));
+//   });
+// }

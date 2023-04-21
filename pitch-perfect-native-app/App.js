@@ -4,11 +4,11 @@ import { useRef, useState } from 'react';
 import { WebView } from 'react-native-webview';
 import VideoList from './components/VideoList';
 import VideoSearch from './components/VideoSearch';
-import { WEBVIEW_URL } from '@env';
+import { WEBVIEW_URL, LOCAL_WEBVIEW_URL } from '@env';
 
 export default function App() {
   [videos, setVideos] = useState([]);
-  [audioView, setAudioView] = useState(false);
+  [selectedVideo, setSelectedVideo] = useState('');
 
   currentVideos = videos.slice();
   const webViewRef = useRef();
@@ -20,20 +20,20 @@ export default function App() {
   }
 
   function handleSelect(id) {
-    console.log('selected video', id);
-    setAudioView(!audioView);
-    console.log(audioView);
+    setSelectedVideo(id);
+    console.log('selected video id: ', id);
   }
 
   function handleSubmit(videos) {
     setVideos(videos);
   }
-  if (audioView) {
+
+  if (selectedVideo !== '') {
     return (
       <View style={styles.container}>
         <WebView
           style={styles.webview}
-          source={{ uri: WEBVIEW_URL }}
+          source={{ uri: LOCAL_WEBVIEW_URL }} // needs to be replaced with the real url or when we test on iphone
           ref={(ref) => (webViewRef.current = ref)}
           incognito={true}
           onMessage={(event) => {
@@ -43,7 +43,7 @@ export default function App() {
         <Button
           title="Send Data"
           onPress={() => {
-            webViewRef.current.postMessage('Just Luv');
+            webViewRef.current.postMessage(selectedVideo);
           }}
         />
         <Button

@@ -6,7 +6,7 @@ import { API_KEY } from '@env';
 // of the video doesn't exist when using YTDL to stream the audio later
 export default function VideoSearch({ onSubmit }) {
   // TODO: will be replaced with form
-  term = 'julien look';
+  term = 'Mittagsmagazin - Jingle - Musik';
   videoSearch = (search) => {
     Search({ key: API_KEY, term: search }, (v) => {
       if (v.length > 0) {

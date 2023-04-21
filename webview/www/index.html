@@ -12,24 +12,11 @@
     </head>
 
     <body>
-        <script>
-            window.addEventListener("message", message => {
-                //alert("uhmm: " + message.data)
-                if (window.ReactNativeWebView) {
-                    window.ReactNativeWebView.postMessage('Hi from Client')
-                }
-
-            });
-        </script>
 
         <div class="wrapper">
             <div class="trackHeader">
-                <h1>Audio Title</h1>
-                <h3>Interpret</h3>
-                <input id="link" style="font-size: 1rem;" placeholder="Insert youtube Link" />
-                <button id="start" style="font-size: 1.3rem;" data-playing="false" aria-checked="false">
-                    LOAD STREAM
-                </button>
+                <h1 id="audio-title">Audio Title</h1>
+                <h3 id="audio-interpreter">Interpreter</h3>
                 <button id="start-local" style="font-size: 1.3rem;" data-playing="false" aria-checked="false">
                     START LOCAL
                 </button>
