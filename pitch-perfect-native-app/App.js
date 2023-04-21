@@ -55,16 +55,24 @@ export default function App() {
         <StatusBar style="auto" />
       </View>
     );
+  } else if (currentVideos.length > 0) {
+    return (
+      <View style={styles.container}>
+        <VideoSearch onSubmit={handleSubmit} />
+        <VideoList videos={currentVideos} onSelect={handleSelect} />
+        <StatusBar style="auto" />
+      </View>
+    );
   } else {
+    return (
+      <View style={styles.container}>
+        <VideoSearch onSubmit={handleSubmit} />
+        <Text style={styles.title}>Start by Searching for Tracks</Text>
+        <Text style={styles.subtitle}>Find all artists and songs the web has to offer!</Text>
+        <StatusBar style="auto" />
+      </View>
+    );
   }
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Welcome to Pitch Perfect</Text>
-      <VideoSearch onSubmit={handleSubmit} />
-      <VideoList videos={currentVideos} onSelect={handleSelect} />
-      <StatusBar style="auto" />
-    </View>
-  );
 }
 
 const windowsWidth = Dimensions.get('window').width;
@@ -75,7 +83,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgb(25, 25, 25)',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   webview: {
     flex: 1,
@@ -83,8 +90,15 @@ const styles = StyleSheet.create({
     margin: '50%',
     backgroundColor: 'purple',
   },
-  text: {
-    marginTop: windowsHeight / 10,
+  title: {
     color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: windowsHeight / 2.5,
+  },
+  subtitle: {
+    color: 'grey',
+    fontSize: 11,
+    marginTop: 10,
   },
 });
