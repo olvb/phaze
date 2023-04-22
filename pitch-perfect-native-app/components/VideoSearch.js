@@ -34,7 +34,7 @@ export default function VideoSearch({ onSubmit }) {
           console.error(error);
         });
 
-      onChangeInput('');
+      //onChangeInput('');
     }
   }
 

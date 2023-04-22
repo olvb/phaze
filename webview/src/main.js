@@ -216,7 +216,8 @@ function setupTimeline(buffer, playControl) {
 window.addEventListener('load', init);
 
 window.addEventListener('message', (message) => {
-  ws.send('https://www.youtube.com/watch?v=R5i3tAcCcd0');
+  // message.data === selectedVideo
+  //ws.send(`https://www.youtube.com/watch?v=${message.data}`);
   if (window.ReactNativeWebView) {
     window.ReactNativeWebView.postMessage('Passed on data to server');
   }

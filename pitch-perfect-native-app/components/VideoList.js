@@ -1,9 +1,9 @@
-import { StyleSheet, Image, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Image, Text, View, TouchableHighlight, FlatList, ScrollView } from 'react-native';
 // TODO: doing a search like that will bear the risk that 'audio only'
 // of the video doesn't exist when using YTDL to stream the audio later
 export default function VideoList({ videos, onSelect }) {
   return (
-    <View style={styles.viewContainer}>
+    <ScrollView style={styles.viewContainer}>
       {videos.map((v) => {
         return (
           <View style={styles.imageContainer} key={v.id.videoId}>
@@ -25,7 +25,7 @@ export default function VideoList({ videos, onSelect }) {
           </View>
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
 

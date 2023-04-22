@@ -25,12 +25,14 @@ export default function App() {
   }
 
   function handleSubmit(videos) {
+    setSelectedVideo('');
     setVideos(videos);
   }
 
   if (selectedVideo !== '') {
     return (
       <View style={styles.container}>
+        <VideoSearch onSubmit={handleSubmit} />
         <WebView
           style={styles.webview}
           source={{ uri: LOCAL_WEBVIEW_URL }} // needs to be replaced with the real url or when we test on iphone
@@ -50,6 +52,13 @@ export default function App() {
           title="Reload WebView"
           onPress={() => {
             handleReload();
+          }}
+        />
+
+        <Button
+          title="Go Back"
+          onPress={() => {
+            setSelectedVideo('');
           }}
         />
         <StatusBar style="auto" />
@@ -83,6 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgb(25, 25, 25)',
     alignItems: 'center',
+    paddingBottom: 15,
   },
   webview: {
     flex: 1,
