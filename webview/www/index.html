@@ -7,18 +7,16 @@
         <link rel="stylesheet" type="text/css" href="./style.css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <script src="./main.js"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
-            integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
     </head>
 
     <body>
 
         <div class="wrapper">
-            <div class="trackHeader">
-                <button id="start-local" style="font-size: 1.3rem;" data-playing="false" aria-checked="false">
-                    START LOCAL
-                </button>
-            </div>
+
+            <button id="start-local" style="font-size: 1.3rem;" data-playing="false" aria-checked="false">
+                START LOCAL
+            </button>
+
 
             <div class="workletContainer">
                 <div id="no-worklet" style="display: none;">Audio Worklet API not supported by you browser, try a recent Chrome version.</div>
@@ -26,20 +24,58 @@
             </div>
 
             <div class="controls">
-                <button id="play-pause" data-playing="false" role="switch" aria-checked="false">
-                    <span class="play" style="font-size: 3rem;"><i class="fas fa-play-circle"></i></span>
-                    <span class="pause" style="font-size: 3rem; display: none;"><i class="fas fa-pause-circle"></i></span>
-                </button>
                 <label for="speed">
                     <span>Speed</span>
-                    <input id="speed" type="range" min="0.5" max="1.5" step="0.01" />
+                    <input class="slider" id="speed" type="range" min="0.5" max="1.5" step="0.01" />
                     <span id="speed-value">1.00</span>
                 </label>
                 <label for="pitch">
                     <span>Pitch</span>
-                    <input id="pitch" type="range" min="0.5" max="1.5" step="0.01" />
+                    <input class="slider" id="pitch" type="range" min="0.5" max="1.5" step="0.01" />
                     <span id="pitch-value">1.00</span>
                 </label>
+
+
+            </div>
+
+            <div class="bottom">
+                <div id="play-pause" data-playing="false" role="switch" aria-checked="false">
+                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+                    <svg id="play" fill="#0fabff" height="250px" width="250px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60" xml:space="preserve" stroke="#0fabff">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                        <g id="SVGRepo_iconCarrier">
+                            <g>
+                                <path
+                                    d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
+                                <path
+                                    d="M30,0C13.458,0,0,13.458,0,30s13.458,30,30,30s30-13.458,30-30S46.542,0,30,0z M30,58C14.561,58,2,45.439,2,30 S14.561,2,30,2s28,12.561,28,28S45.439,58,30,58z" />
+                            </g>
+                        </g>
+
+                    </svg>
+
+
+                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+                    <svg id="pause" fill="#0fabff" height="250px" width="250px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60" xml:space="preserve" stroke="#0fabff">
+
+                        <g id="SVGRepo_bgCarrier" stroke-width="0" />
+
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+
+                        <g id="SVGRepo_iconCarrier">
+                            <g>
+                                <path
+                                    d="M30,0C13.458,0,0,13.458,0,30s13.458,30,30,30s30-13.458,30-30S46.542,0,30,0z M30,58C14.561,58,2,45.439,2,30 S14.561,2,30,2s28,12.561,28,28S45.439,58,30,58z" />
+                                <path d="M33,46h8V14h-8V46z M35,16h4v28h-4V16z" />
+                                <path d="M19,46h8V14h-8V46z M21,16h4v28h-4V16z" />
+                            </g>
+                        </g>
+
+                    </svg>
+                </div>
             </div>
         </div>
     </body>

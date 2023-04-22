@@ -20608,27 +20608,33 @@ async function setupEngine(buffer) {
 }
 
 function setupPlayPauseButton(playControl) {
-  let $playButton = document.querySelector('#play-pause');
-  let $playIcon = $playButton.querySelector('.play');
-  let $pauseIcon = $playButton.querySelector('.pause');
-  $playButton.addEventListener(
+  let $playIcon = document.querySelector('#play');
+  let $pauseIcon = document.querySelector('#pause');
+  $pauseIcon.addEventListener(
+    'click',
+    function () {
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      playControl.pause();
+      this.dataset.playing = 'false';
+      $pauseIcon.style.display = 'none';
+      $playIcon.style.display = 'inline';
+    },
+    false
+  );
+
+  $playIcon.addEventListener(
     'click',
     function () {
       if (audioContext.state === 'suspended') {
         audioContext.resume();
       }
 
-      if (this.dataset.playing === 'false') {
-        playControl.start();
-        this.dataset.playing = 'true';
-        $playIcon.style.display = 'none';
-        $pauseIcon.style.display = 'inline';
-      } else if (this.dataset.playing === 'true') {
-        playControl.pause();
-        this.dataset.playing = 'false';
-        $pauseIcon.style.display = 'none';
-        $playIcon.style.display = 'inline';
-      }
+      playControl.start();
+      this.dataset.playing = 'true';
+      $playIcon.style.display = 'none';
+      $pauseIcon.style.display = 'inline';
     },
     false
   );
@@ -20679,6 +20685,7 @@ function setupTimeline(buffer, playControl) {
   timeline.createTrack($timeline, height, 'main');
   let waveformLayer = new wavesUI.helpers.WaveformLayer(buffer, {
     height: height,
+    color: '#0FABFF',
   });
 
   // cursor
