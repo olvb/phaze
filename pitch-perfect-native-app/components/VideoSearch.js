@@ -44,14 +44,11 @@ export default function VideoSearch({ onSubmit }) {
         .catch(function (error) {
           console.error(error);
         });
-
-      //onChangeInput('');
     }
   }
 
   return (
     <View style={styles.container}>
-      {/* term = 'Mittagsmagazin - Jingle - Musik'; */}
       <TextInput
         style={styles.input}
         onChangeText={onChangeInput}

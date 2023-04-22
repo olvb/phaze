@@ -15,13 +15,15 @@ export default function VideoList({ videos, onSelect }) {
                 }}
               />
             </TouchableHighlight>
+            <Text style={styles.duration}>{v.duration}</Text>
+
             <View style={styles.infoCard}>
               <Text style={styles.infoTextTitle} onPress={() => onSelect(v.id.videoId)}>
                 {v.snippet.title}
               </Text>
-              <Text style={styles.infoTextSubtitle}>{new Date(v.snippet.publishedAt).toISOString().split('T')[0]}</Text>
               <Text style={styles.infoTextSubtitle}>{v.snippet.channelTitle}</Text>
-              <Text style={styles.infoTextSubtitle}>{v.duration}</Text>
+
+              <Text style={styles.infoTextSubtitle}>{new Date(v.snippet.publishedAt).toISOString().split('T')[0]}</Text>
             </View>
           </View>
         );
@@ -44,13 +46,21 @@ const styles = StyleSheet.create({
   thumbnail: {
     width: 160,
     height: 90,
-
     flex: 1,
   },
+  duration: {
+    position: 'absolute',
+    left: '33%',
+    bottom: '3%',
+    color: 'white',
+    backgroundColor: 'black',
+    fontSize: 12,
+  },
   infoCard: {
-    flex: 1,
+    flex: 2,
     color: 'white',
     fontWeight: 'bold',
+    marginLeft: 70,
   },
   infoTextTitle: {
     color: 'white',
