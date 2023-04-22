@@ -14,11 +14,11 @@ export default function App() {
   selectedVideo = videos.slice().find((v) => v.id.videoId === selectedVideoId);
   const webViewRef = useRef();
   // const [cacheBuster, setCacheBuster] = useState(Date.now());
-  function handleReload() {
-    //setCacheBuster(Date.now());
-    //webViewRef.current.clearCache(true);
-    webViewRef.current.reload();
-  }
+  // function handleReload() {
+  //   //setCacheBuster(Date.now());
+  //   //webViewRef.current.clearCache(true);
+  //   webViewRef.current.reload();
+  // }
 
   function handleSelect(id) {
     setSelectedVideoId(id);
@@ -45,18 +45,12 @@ export default function App() {
             console.log('received Message: ', event.nativeEvent.data); // Client received data
           }}
         />
-        <Button
+        {/* <Button
           title="Send Data"
           onPress={() => {
             webViewRef.current.postMessage(selectedVideo);
           }}
-        />
-        <Button
-          title="Reload WebView"
-          onPress={() => {
-            handleReload();
-          }}
-        />
+        /> */}
 
         <Button
           title="Go Back"
@@ -116,10 +110,11 @@ const styles = StyleSheet.create({
   },
   trackTitle: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     alignSelf: 'flex-start',
     marginLeft: 20,
+    marginRight: 20,
     marginTop: 20,
   },
   trackInterpreter: {

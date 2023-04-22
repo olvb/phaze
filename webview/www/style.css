@@ -24,7 +24,7 @@ body {
   height: 100%;
   padding: 2% 0 2% 0;
   display: grid;
-  grid-template-rows: 5fr 5fr 5fr;
+  grid-template-rows: 8fr 5fr 5fr;
   gap: 2%;
   /* flex-direction: column;
   align-items: space-around;
@@ -107,6 +107,7 @@ body {
 
 .bottom {
   grid-row: 3;
+  align-self: center;
 }
 
 #play-pause {

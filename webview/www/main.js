@@ -20663,10 +20663,15 @@ function setupPitchSlider(phaseVocoderNode) {
   $pitchSlider.addEventListener(
     'input',
     function () {
-      pitchFactor = parseFloat(this.value);
+      // pitchFactor = parseFloat(this.value);
+      pitchFactor = parseFloat(this.value * 0.05 + 1);
       pitchFactorParam.value = (pitchFactor * 1) / speedFactor;
 
-      $valueLabel.innerHTML = pitchFactor.toFixed(2);
+      if (this.value > 0) {
+        $valueLabel.innerHTML = '+' + this.value;
+      } else {
+        $valueLabel.innerHTML = this.value;
+      }
     },
     false
   );
@@ -20677,7 +20682,7 @@ function setupTimeline(buffer, playControl) {
 
   const width = $timeline.getBoundingClientRect().width;
   //const height = document.querySelector('.workletContainer').height;
-  const height = Math.trunc((width * 3) / 8);
+  const height = Math.trunc((width * 5) / 8);
   const duration = buffer.duration;
   const pixelsPerSecond = width / duration;
 
