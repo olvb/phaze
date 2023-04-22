@@ -8,9 +8,10 @@ import { WEBVIEW_URL, LOCAL_WEBVIEW_URL } from '@env';
 
 export default function App() {
   [videos, setVideos] = useState([]);
-  [selectedVideo, setSelectedVideo] = useState('');
+  [selectedVideoId, setSelectedVideoId] = useState('');
 
   currentVideos = videos.slice();
+  selectedVideo = videos.slice().find((v) => v.id.videoId === selectedVideoId);
   const webViewRef = useRef();
   // const [cacheBuster, setCacheBuster] = useState(Date.now());
   function handleReload() {
@@ -20,19 +21,21 @@ export default function App() {
   }
 
   function handleSelect(id) {
-    setSelectedVideo(id);
+    setSelectedVideoId(id);
     console.log('selected video id: ', id);
   }
 
   function handleSubmit(videos) {
-    setSelectedVideo('');
+    setSelectedVideoId('');
     setVideos(videos);
   }
 
-  if (selectedVideo !== '') {
+  if (selectedVideoId !== '') {
     return (
       <View style={styles.container}>
         <VideoSearch onSubmit={handleSubmit} />
+        <Text style={styles.trackTitle}>{selectedVideo.snippet.title}</Text>
+        <Text style={styles.trackInterpreter}>{selectedVideo.snippet.channelTitle}</Text>
         <WebView
           style={styles.webview}
           source={{ uri: LOCAL_WEBVIEW_URL }} // needs to be replaced with the real url or when we test on iphone
@@ -58,7 +61,7 @@ export default function App() {
         <Button
           title="Go Back"
           onPress={() => {
-            setSelectedVideo('');
+            setSelectedVideoId('');
           }}
         />
         <StatusBar style="auto" />
@@ -97,8 +100,8 @@ const styles = StyleSheet.create({
   webview: {
     flex: 1,
     width: windowsWidth,
-    margin: '50%',
-    backgroundColor: 'purple',
+    margin: '10%',
+    backgroundColor: 'rgb(25, 25, 25)',
   },
   title: {
     color: 'white',
@@ -110,5 +113,20 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontSize: 11,
     marginTop: 10,
+  },
+  trackTitle: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignSelf: 'flex-start',
+    marginLeft: 20,
+    marginTop: 20,
+  },
+  trackInterpreter: {
+    color: 'grey',
+    fontSize: 13,
+    marginTop: 10,
+    alignSelf: 'flex-start',
+    marginLeft: 20,
   },
 });

@@ -24,9 +24,6 @@ var speedFactor = 1.0;
 var pitchFactor = 1.0;
 
 function init() {
-  let $start = document.querySelector('#start');
-  $start.addEventListener('click', loadTrack);
-
   let $startLocal = document.querySelector('#start-local');
   $startLocal.addEventListener('click', handleLocalBuffer);
 }
@@ -49,6 +46,8 @@ async function handleBuffer(event) {
 
 async function handleLocalBuffer() {
   const buffer = await loader.load('./bossaura.mp3');
+  console.log(buffer);
+
   let [playerEngine, phaseVocoderNode] = await setupEngine(buffer);
   let playControl = new wavesAudio.PlayControl(playerEngine);
   playControl.setLoopBoundaries(0, buffer.duration);

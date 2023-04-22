@@ -20528,9 +20528,6 @@ var speedFactor = 1.0;
 var pitchFactor = 1.0;
 
 function init() {
-  let $start = document.querySelector('#start');
-  $start.addEventListener('click', loadTrack);
-
   let $startLocal = document.querySelector('#start-local');
   $startLocal.addEventListener('click', handleLocalBuffer);
 }
@@ -20553,6 +20550,8 @@ async function handleBuffer(event) {
 
 async function handleLocalBuffer() {
   const buffer = await loader.load('./bossaura.mp3');
+  console.log(buffer);
+
   let [playerEngine, phaseVocoderNode] = await setupEngine(buffer);
   let playControl = new wavesAudio.PlayControl(playerEngine);
   playControl.setLoopBoundaries(0, buffer.duration);
@@ -20720,7 +20719,8 @@ function setupTimeline(buffer, playControl) {
 window.addEventListener('load', init);
 
 window.addEventListener('message', (message) => {
-  ws.send('https://www.youtube.com/watch?v=R5i3tAcCcd0');
+  // message.data === selectedVideo
+  //ws.send(`https://www.youtube.com/watch?v=${message.data}`);
   if (window.ReactNativeWebView) {
     window.ReactNativeWebView.postMessage('Passed on data to server');
   }
