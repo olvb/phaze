@@ -21,6 +21,7 @@ export default function VideoList({ videos, onSelect }) {
               </Text>
               <Text style={styles.infoTextSubtitle}>{new Date(v.snippet.publishedAt).toISOString().split('T')[0]}</Text>
               <Text style={styles.infoTextSubtitle}>{v.snippet.channelTitle}</Text>
+              <Text style={styles.infoTextSubtitle}>{v.duration}</Text>
             </View>
           </View>
         );
