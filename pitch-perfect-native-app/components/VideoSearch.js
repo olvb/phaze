@@ -17,6 +17,7 @@ export default function VideoSearch({ onSubmit }) {
     q: '',
     type: 'video',
     videoDuration: 'short',
+    order: 'relevance',
     maxResults: 40,
   };
 
