@@ -72,13 +72,13 @@ export default function App() {
         <Image style={styles.logo} source={require('./assets/pitchify-logo-truncated.png')}></Image>
         <Text style={styles.title}>Start by Searching for Tracks</Text>
         <Text style={styles.subtitle}>Find all artists and songs the web has to offer!</Text>
-        {/* <Button
+        <Button
           style={styles.debuggerButton}
-          title="Use Local Track"
+          title="Load Test Track"
           onPress={() => {
             handleSelect('use_local_track');
           }}
-        ></Button> */}
+        ></Button>
         <StatusBar style="auto" />
       </View>
     );
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   webview: {
     flex: 1,
     width: windowsWidth,
-    margin: '10%',
+    margin: '2%',
     backgroundColor: 'rgb(25, 25, 25)',
   },
   logo: {

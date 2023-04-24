@@ -4,6 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Phaze - A real-time web audio pitch-shifte</title>
+        <link href="//fonts.googleapis.com/css?family=Roboto:500,700" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="./style.css" />
         <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
             crossorigin="anonymous"></script>
@@ -28,16 +29,18 @@
             </div>
 
             <div class="controls">
-                <label for="speed">
-                    <span>Speed</span>
-                    <input class="slider" id="speed" type="range" min="0.5" max="1.5" step="0.01" />
-                    <span id="speed-value">1.00</span>
-                </label>
                 <label for="pitch">
-                    <span>Pitch</span>
+                    <span style=" margin-bottom: 5%;">Pitch</span>
                     <input class="slider" id="pitch" type="range" min="-10" max="10" step="1" />
-                    <span id="pitch-value">0</span>
+
+                    <span style="margin-top: 5%;  margin-bottom: 5%;" id="pitch-value">0</span>
                 </label>
+                <label for="speed">
+                    <span style="margin-bottom: 5%;">Speed</span>
+                    <input class="slider" id="speed" type="range" min="0.5" max="1.5" step="0.01" />
+                    <span style="margin-top: 5%;" id="speed-value">1.00</span>
+                </label>
+
 
 
             </div>
@@ -45,7 +48,7 @@
             <div class="bottom">
                 <div id="play-pause" data-playing="false" role="switch" aria-checked="false">
                     <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-                    <svg id="play" fill="#0fabff" height="250px" width="250px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                    <svg id="play" fill="#0fabff" height="200px" width="200px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60" xml:space="preserve" stroke="#0fabff">
                         <g id="SVGRepo_bgCarrier" stroke-width="0" />
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
@@ -62,7 +65,7 @@
 
 
                     <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-                    <svg id="pause" fill="#0fabff" height="250px" width="250px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                    <svg id="pause" fill="#0fabff" height="200px" width="200px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60" xml:space="preserve" stroke="#0fabff">
 
                         <g id="SVGRepo_bgCarrier" stroke-width="0" />
