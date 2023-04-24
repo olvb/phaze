@@ -37,6 +37,7 @@ body {
   align-self: center;
 }
 
+/* We will need a fade-in fade-out animation to make it look cleaner */
 .loading-spinner {
   display: flex;
   flex-direction: column;
