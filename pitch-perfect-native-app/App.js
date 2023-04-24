@@ -34,22 +34,17 @@ export default function App() {
     return (
       <View style={styles.container}>
         <VideoSearch onSubmit={handleSubmit} />
-        <Text style={styles.trackTitle}>{selectedVideo.snippet.title}</Text>
-        <Text style={styles.trackInterpreter}>{selectedVideo.snippet.channelTitle}</Text>
+        <Text style={styles.trackTitle}>{selectedVideo ? selectedVideo.snippet.title : 'test track'}</Text>
+        <Text style={styles.trackInterpreter}>{selectedVideo ? selectedVideo.snippet.channelTitle : 'test interpreter'}</Text>
         <WebView
           style={styles.webview}
-          source={{ uri: LOCAL_WEBVIEW_URL }} // needs to be replaced with the real url or when we test on iphone
+          source={{ uri: LOCAL_WEBVIEW_URL }} // needs to be replaced with the tunnel url when we test on iphone
           ref={(ref) => (webViewRef.current = ref)}
           incognito={true}
           onMessage={(event) => {
-            console.log('received Message: ', event.nativeEvent.data); // Client received data
+            console.log('received Message: ', event.nativeEvent.data); // Client received data and feedbacked
           }}
-        />
-        <Button
-          title="Send Data"
-          onPress={() => {
-            webViewRef.current.postMessage(selectedVideoId);
-          }}
+          onLoad={() => webViewRef.current.postMessage(selectedVideoId)}
         />
 
         <Button
@@ -75,6 +70,12 @@ export default function App() {
         <VideoSearch onSubmit={handleSubmit} />
         <Text style={styles.title}>Start by Searching for Tracks</Text>
         <Text style={styles.subtitle}>Find all artists and songs the web has to offer!</Text>
+        <Button
+          title="Use Local Track"
+          onPress={() => {
+            handleSelect('use_local_track');
+          }}
+        ></Button>
         <StatusBar style="auto" />
       </View>
     );

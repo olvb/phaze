@@ -20759,10 +20759,11 @@ function setupTimeline(buffer, playControl) {
 window.addEventListener('load', init);
 
 window.addEventListener('message', (message) => {
-  // message.data === selectedVideo
-  alert(message.data);
-
-  ws.send(`https://www.youtube.com/watch?v=${message.data}`);
+  if (message.data === 'use_local_track') {
+    handleLocalBuffer();
+  } else {
+    ws.send(`https://www.youtube.com/watch?v=${message.data}`);
+  }
   if (window.ReactNativeWebView) {
     window.ReactNativeWebView.postMessage('Passed on data to server');
   }
