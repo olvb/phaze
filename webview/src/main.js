@@ -215,11 +215,39 @@ function setupTimeline(buffer, playControl) {
   timeline.tracks.render();
   timeline.tracks.update();
 
+  let isDragging = false;
+  let moved = 0;
+
+  // For the dragging animation we have a mobile and a desktop version
+
+  // start dragging
+  $timeline.addEventListener('mousedown', () => (isDragging = true));
+  $timeline.addEventListener('touchstart', () => (isDragging = true));
+
+  // dragging animation
+  document.addEventListener('touchmove', function (e) {
+    if (isDragging) {
+      // TODO: -60px is hardcoded and probably not feasible for mobile development!
+      moved = (e.touches[0].clientX - 60) / pixelsPerSecond;
+      playControl.seek(moved);
+      //alert(`touchmove working ${moved}`);
+    }
+  });
+  document.addEventListener('mousemove', function (e) {
+    if (isDragging) {
+      moved = (e.x - 68) / pixelsPerSecond;
+      playControl.seek(moved);
+    }
+  });
+
+  // end dragging
+  $timeline.addEventListener('mouseup', () => (isDragging = false));
+  $timeline.addEventListener('touchend', () => (isDragging = false));
+
   // cursor animation loop
   (function loop() {
     cursorData.position = playControl.currentPosition;
     timeline.tracks.update(cursorLayer);
-
     requestAnimationFrame(loop);
   })();
 }
@@ -228,7 +256,9 @@ window.addEventListener('load', init);
 
 window.addEventListener('message', (message) => {
   // message.data === selectedVideo
-  //ws.send(`https://www.youtube.com/watch?v=${message.data}`);
+  alert(message.data);
+
+  ws.send(`https://www.youtube.com/watch?v=${message.data}`);
   if (window.ReactNativeWebView) {
     window.ReactNativeWebView.postMessage('Passed on data to server');
   }

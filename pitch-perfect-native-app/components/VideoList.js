@@ -4,6 +4,7 @@ import { StyleSheet, Image, Text, View, TouchableHighlight, FlatList, ScrollView
 export default function VideoList({ videos, onSelect }) {
   return (
     <ScrollView style={styles.viewContainer}>
+      <Text style={styles.containerTitle}> Search Results...</Text>
       {videos.map((v) => {
         return (
           <View style={styles.imageContainer} key={v.id.videoId}>
@@ -37,6 +38,12 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     width: '100%',
     rowGap: '5%',
+  },
+  containerTitle: {
+    marginLeft: '1%',
+    marginBottom: '2%',
+    fontSize: 15,
+    color: 'white',
   },
   imageContainer: {
     margin: '2%',

@@ -45,12 +45,12 @@ export default function App() {
             console.log('received Message: ', event.nativeEvent.data); // Client received data
           }}
         />
-        {/* <Button
+        <Button
           title="Send Data"
           onPress={() => {
-            webViewRef.current.postMessage(selectedVideo);
+            webViewRef.current.postMessage(selectedVideoId);
           }}
-        /> */}
+        />
 
         <Button
           title="Go Back"
