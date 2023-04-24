@@ -146,7 +146,6 @@ function setupPitchSlider(phaseVocoderNode) {
   $pitchSlider.addEventListener(
     'input',
     function () {
-      // pitchFactor = parseFloat(this.value);
       pitchFactor = parseFloat(this.value * 0.05 + 1);
       pitchFactorParam.value = (pitchFactor * 1) / speedFactor;
 
@@ -213,7 +212,7 @@ function setupTimeline(buffer, playControl) {
 
   // dragging animation
   document.addEventListener('touchmove', function (e) {
-    if (isDragging) {
+    if (isDragging && e.touches[0].clientX - 60 > 0 && e.touches[0].clientX - 60 < width) {
       // TODO: -60px is hardcoded and probably not feasible for mobile development!
       moved = (e.touches[0].clientX - 60) / pixelsPerSecond;
       playControl.seek(moved);
@@ -221,7 +220,7 @@ function setupTimeline(buffer, playControl) {
     }
   });
   document.addEventListener('mousemove', function (e) {
-    if (isDragging) {
+    if (isDragging && e.x - 68 >= 0 && e.x - 68 < width) {
       moved = (e.x - 68) / pixelsPerSecond;
       playControl.seek(moved);
     }
