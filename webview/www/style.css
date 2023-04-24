@@ -37,6 +37,10 @@ body {
   align-self: center;
 }
 
+#loading-spinner {
+  display: block;
+}
+
 .controls {
   grid-row: 2;
   height: 100%;

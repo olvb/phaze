@@ -10,7 +10,7 @@ const ws = new Sockette('ws://localhost:3001', {
   timeout: 5e3,
   maxAttempts: 10,
   onopen: (e) => console.log('Connected', e),
-  onmessage: (e) => handleBuffer(e),
+  onmessage: (e) => handleBufferFromServer(e),
   onreconnect: (e) => console.log('Reconnecting...', e),
   onmaximum: (e) => console.log('Stop Attempting!', e),
   onclose: (e) => console.log('Closed!', e),
@@ -25,17 +25,10 @@ var pitchFactor = 1.0;
 
 function init() {
   let $startLocal = document.querySelector('#start-local');
-  $startLocal.addEventListener('click', handleLocalBuffer);
+  $startLocal.addEventListener('click', handleLocalFile);
 }
 
-// async function loadTrack() {
-//   //const $link = document.querySelector('#link');
-//   //ws.send($link.value);
-//   alert('message: ', videoId);
-//   ws.send('https://www.youtube.com/watch?v=R5i3tAcCcd0');
-// }
-
-async function handleBuffer(event) {
+async function handleBufferFromServer(event) {
   const audioContext = new AudioContext();
   console.log(event.data, typeof event.data);
   const buffer = await event.data.arrayBuffer();
@@ -44,22 +37,9 @@ async function handleBuffer(event) {
   handleAudioBuffer(audioBuffer);
 }
 
-async function handleLocalBuffer() {
+async function handleLocalFile() {
   const buffer = await loader.load('./bossaura.mp3');
-  console.log(buffer);
-
-  let [playerEngine, phaseVocoderNode] = await setupEngine(buffer);
-  let playControl = new wavesAudio.PlayControl(playerEngine);
-  playControl.setLoopBoundaries(0, buffer.duration);
-  playControl.loop = true;
-
-  setupPlayPauseButton(playControl);
-  setupSpeedSlider(playControl, phaseVocoderNode);
-  setupPitchSlider(phaseVocoderNode);
-  setupTimeline(buffer, playControl);
-
-  let $controls = document.querySelector('.controls');
-  $controls.style.display = 'flex';
+  handleAudioBuffer(buffer);
 }
 
 async function handleAudioBuffer(buffer) {
@@ -72,6 +52,9 @@ async function handleAudioBuffer(buffer) {
   playControl.setLoopBoundaries(0, buffer.duration);
   playControl.loop = true;
 
+  // we remove the loader from the DOM
+  const spinner = document.getElementById('loading-spinner');
+  spinner.style.display = 'none';
   setupPlayPauseButton(playControl);
   setupSpeedSlider(playControl, phaseVocoderNode);
   setupPitchSlider(phaseVocoderNode);
@@ -256,7 +239,7 @@ window.addEventListener('load', init);
 
 window.addEventListener('message', (message) => {
   if (message.data === 'use_local_track') {
-    handleLocalBuffer();
+    handleLocalFile();
   } else {
     ws.send(`https://www.youtube.com/watch?v=${message.data}`);
   }
