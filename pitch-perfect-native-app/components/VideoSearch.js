@@ -1,5 +1,5 @@
-import { StyleSheet, View, TextInput, Dimensions } from 'react-native';
-import { useState } from 'react';
+import { StyleSheet, View, TextInput, Dimensions, Image } from 'react-native';
+import { useRef, useState } from 'react';
 import { API_KEY } from '@env';
 import * as axios from 'axios';
 
@@ -9,7 +9,7 @@ let DETAILS_URL = 'https://www.googleapis.com/youtube/v3/videos?part=contentDeta
 // TODO: doing a search like that will bear the risk that 'audio only'
 // of the video doesn't exist when using YTDL to stream the audio later
 export default function VideoSearch({ onSubmit }) {
-  const [searchInput, onChangeInput] = useState(null);
+  const [searchInput, onChangeInput] = useState('');
 
   const params = {
     part: 'snippet',
@@ -62,7 +62,10 @@ export default function VideoSearch({ onSubmit }) {
         onSubmitEditing={() => {
           videoSearch();
         }}
+        clearButtonMode="always"
+        clearTextOnFocus={true}
       />
+      {/* <Image style={styles.crossIcon} onPress={() => this.searchInputRef.clear()} source={require('../assets/cancel-svgrepo-com.png')}></Image> */}
     </View>
   );
 }
@@ -107,5 +110,12 @@ const styles = StyleSheet.create({
     padding: 10,
     color: 'white',
     backgroundColor: '#3b3b3b',
+  },
+  crossIcon: {
+    position: 'absolute',
+    zIndex: 2,
+    right: '7%',
+    height: 15,
+    width: 15,
   },
 });
