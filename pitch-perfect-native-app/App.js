@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Button, Image } from 'react-native';
 import { useRef, useState } from 'react';
 import { WebView } from 'react-native-webview';
 import VideoList from './components/VideoList';
@@ -68,14 +68,17 @@ export default function App() {
     return (
       <View style={styles.container}>
         <VideoSearch onSubmit={handleSubmit} />
+
+        <Image style={styles.logo} source={require('./assets/pitchify-logo-truncated.png')}></Image>
         <Text style={styles.title}>Start by Searching for Tracks</Text>
         <Text style={styles.subtitle}>Find all artists and songs the web has to offer!</Text>
-        <Button
+        {/* <Button
+          style={styles.debuggerButton}
           title="Use Local Track"
           onPress={() => {
             handleSelect('use_local_track');
           }}
-        ></Button>
+        ></Button> */}
         <StatusBar style="auto" />
       </View>
     );
@@ -98,17 +101,24 @@ const styles = StyleSheet.create({
     margin: '10%',
     backgroundColor: 'rgb(25, 25, 25)',
   },
+  logo: {
+    marginTop: '40%',
+    width: '40%',
+    height: '30%',
+    resizeMode: 'stretch',
+  },
   title: {
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: windowsHeight / 2.5,
+    marginTop: '15%',
   },
   subtitle: {
     color: 'grey',
     fontSize: 11,
     marginTop: 10,
   },
+
   trackTitle: {
     color: 'white',
     fontSize: 25,
@@ -124,5 +134,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'flex-start',
     marginLeft: 20,
+  },
+  debuggerButton: {
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    bottom: 35,
   },
 });
