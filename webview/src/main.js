@@ -52,15 +52,19 @@ async function handleAudioBuffer(buffer) {
   playControl.setLoopBoundaries(0, buffer.duration);
   playControl.loop = true;
 
-  // we remove the loader from the DOM
-  const spinner = document.getElementById('loading-spinner');
-  spinner.style.display = 'none';
   setupPlayPauseButton(playControl);
   setupSpeedSlider(playControl, phaseVocoderNode);
   setupPitchSlider(phaseVocoderNode);
   setupTimeline(buffer, playControl);
 
-  let $controls = document.querySelector('.controls');
+  // Remove loader & start-local button from the DOM and display the track related HTML
+  const $spinner = document.querySelector('.loading-spinner');
+  $spinner.style.display = 'none';
+  const $localFileButton = document.querySelector('#start-local');
+  $localFileButton.style.display = 'none';
+  const $bottom = document.querySelector('.bottom');
+  $bottom.style.display = 'block';
+  const $controls = document.querySelector('.controls');
   $controls.style.display = 'flex';
 }
 

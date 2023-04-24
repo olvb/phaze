@@ -37,8 +37,10 @@ body {
   align-self: center;
 }
 
-#loading-spinner {
-  display: block;
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .controls {
@@ -110,6 +112,7 @@ body {
 }
 
 .bottom {
+  display: none;
   grid-row: 3;
   align-self: center;
 }
