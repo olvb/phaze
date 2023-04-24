@@ -29,6 +29,10 @@ export default function VideoSearch({ onSubmit }) {
         .then((response) => response.data.items)
         .then((videos) => {
           if (videos.length > 0) {
+            videos.forEach((video) => {
+              video.snippet.title = video.snippet.title.replace(/&(\w+);/g, '&');
+            });
+
             const joinedIds = videos.map((video) => video.id.videoId).join('&id=');
             const finishedURL = DETAILS_URL + joinedIds + '&key=' + API_KEY;
 
