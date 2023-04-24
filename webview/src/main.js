@@ -10,7 +10,7 @@ const ws = new Sockette('ws://localhost:3001', {
   timeout: 5e3,
   maxAttempts: 10,
   onopen: (e) => console.log('Connected', e),
-  onmessage: (e) => handleBufferFromServer(e),
+  onmessage: (e) => receiveBufferFromServer(e),
   onreconnect: (e) => console.log('Reconnecting...', e),
   onmaximum: (e) => console.log('Stop Attempting!', e),
   onclose: (e) => console.log('Closed!', e),
@@ -28,7 +28,7 @@ function init() {
   $startLocal.addEventListener('click', handleLocalFile);
 }
 
-async function handleBufferFromServer(event) {
+async function receiveBufferFromServer(event) {
   const audioContext = new AudioContext();
   console.log(event.data, typeof event.data);
   const buffer = await event.data.arrayBuffer();
