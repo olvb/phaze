@@ -20521,7 +20521,7 @@ const ws = new Sockette('ws://localhost:3001', {
   onerror: (e) => console.log('Error:', e),
 });
 
-let audioContext = wavesAudio.audioContext;
+let audioContext;
 let loader = new wavesLoaders.AudioBufferLoader();
 
 var speedFactor = 1.0;
@@ -20547,6 +20547,7 @@ async function handleLocalFile() {
 }
 
 async function handleAudioBuffer(buffer) {
+  audioContext = wavesAudio.audioContext;
   if (audioContext.audioWorklet === undefined) {
     handleNoWorklet();
     return;
