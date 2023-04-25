@@ -1,7 +1,12 @@
 const ytdl = require('ytdl-core');
 const WebSocket = require('ws');
+const express = require('express');
+const { createServer } = require('http');
 
-const wss = new WebSocket.Server({ port: 3001 });
+const app = express();
+const server = createServer(app);
+
+const wss = new WebSocket.Server({ server });
 
 wss.on('connection', function connection(ws) {
   console.log('connected');
@@ -26,4 +31,8 @@ wss.on('connection', function connection(ws) {
         ws.send(buffer);
       });
   });
+});
+
+server.listen(3000, function () {
+  console.log('Listening on http://127.0.0.1:3000');
 });

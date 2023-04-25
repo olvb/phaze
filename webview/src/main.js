@@ -6,7 +6,7 @@ const wavesLoaders = require('waves-loaders');
 const Sockette = require('sockette');
 //const Tone = require('tone');
 
-const ws = new Sockette('ws://localhost:3001', {
+const ws = new Sockette('ws://localhost:3000', {
   timeout: 5e3,
   maxAttempts: 10,
   onopen: (e) => console.log('Connected', e),
