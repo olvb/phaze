@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Button, Image, Vibration } from 'react-native';
 import { useRef, useState } from 'react';
 import { WebView } from 'react-native-webview';
+import * as Animatable from 'react-native-animatable';
 import VideoList from './components/VideoList';
 import VideoSearch from './components/VideoSearch';
+
 import { WEBVIEW_URL, LOCAL_WEBVIEW_URL } from '@env';
 
 export default function App() {
@@ -21,8 +23,6 @@ export default function App() {
   // }
 
   function handleSelect(id) {
-    console.log('here');
-
     setSelectedVideoId(id);
     console.log('selected video id: ', id);
   }
@@ -73,20 +73,28 @@ export default function App() {
     );
   } else {
     return (
-      <View style={styles.container}>
-        <VideoSearch onSubmit={handleSubmit} onReturnHome={handleReturnHome} />
+      <View style={{ backgroundColor: 'rgb(25, 25, 25)', paddingBottom: 15, flex: 1 }}>
+        <Animatable.View animation={fadeIn} style={styles.container}>
+          <VideoSearch onSubmit={handleSubmit} onReturnHome={handleReturnHome} />
 
-        <Image onPress={() => console.log('pressed')} style={styles.logo} source={require('./assets/pitchify-logo-truncated.png')}></Image>
-        <Text style={styles.title}>Start by Searching for Tracks</Text>
-        <Text style={styles.subtitle}>Find all artists and songs the web has to offer!</Text>
-        <Button
-          style={styles.debuggerButton}
-          title="Load Test Track"
-          onPress={() => {
-            handleSelect('use_local_track');
-          }}
-        ></Button>
-        <StatusBar style="auto" />
+          <Animatable.Image
+            animation="pulse"
+            easing="ease-out"
+            iterationCount="infinite"
+            style={styles.logo}
+            source={require('./assets/pitchify-logo-truncated.png')}
+          ></Animatable.Image>
+          <Text style={styles.title}>Start by Searching for Tracks</Text>
+          <Text style={styles.subtitle}>Find all artists and songs the web has to offer!</Text>
+          <Button
+            style={styles.debuggerButton}
+            title="Load Test Track"
+            onPress={() => {
+              handleSelect('use_local_track');
+            }}
+          ></Button>
+          <StatusBar style="auto" />
+        </Animatable.View>
       </View>
     );
   }
@@ -94,6 +102,15 @@ export default function App() {
 
 const windowsWidth = Dimensions.get('window').width;
 // const windowsHeight = Dimensions.get('window').height;
+
+const fadeIn = {
+  from: {
+    opacity: 0,
+  },
+  to: {
+    opacity: 1,
+  },
+};
 
 const styles = StyleSheet.create({
   container: {
