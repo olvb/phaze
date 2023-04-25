@@ -1,15 +1,10 @@
 const ytdl = require('ytdl-core');
 const WebSocket = require('ws');
-// const { createServer } = require('http');
-// const express = require('express');
 
-// const app = express();
-// const wss = new WebSocket.Server({ server: app.listen(8080) });
 const wss = new WebSocket.Server({ port: 8080 });
 
 wss.on('connection', function connection(ws) {
   console.log('connected');
-
   ws.on('error', console.error);
 
   ws.on('message', async function message(data) {
