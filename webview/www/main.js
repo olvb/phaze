@@ -20521,7 +20521,7 @@ const ws = new Sockette('ws://localhost:3001', {
   onerror: (e) => console.log('Error:', e),
 });
 
-let audioContext = new AudioContext();
+let audioContext = wavesAudio.audioContext;
 let loader = new wavesLoaders.AudioBufferLoader();
 
 var speedFactor = 1.0;

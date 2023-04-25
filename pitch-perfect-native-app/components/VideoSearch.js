@@ -1,5 +1,5 @@
-import { StyleSheet, View, TextInput, Dimensions, Image } from 'react-native';
-import { useRef, useState } from 'react';
+import { StyleSheet, View, TextInput, Dimensions, Image, TouchableHighlight } from 'react-native';
+import { useState } from 'react';
 import { API_KEY } from '@env';
 import * as axios from 'axios';
 
@@ -8,7 +8,7 @@ let DETAILS_URL = 'https://www.googleapis.com/youtube/v3/videos?part=contentDeta
 
 // TODO: doing a search like that will bear the risk that 'audio only'
 // of the video doesn't exist when using YTDL to stream the audio later
-export default function VideoSearch({ onSubmit }) {
+export default function VideoSearch({ onSubmit, onReturnHome }) {
   const [searchInput, onChangeInput] = useState('');
 
   const params = {
@@ -53,6 +53,9 @@ export default function VideoSearch({ onSubmit }) {
 
   return (
     <View style={styles.container}>
+      <TouchableHighlight style={styles.logo} onPress={() => onReturnHome()}>
+        <Image style={styles.logo} source={require('../assets/pitchify-logo-truncated.png')}></Image>
+      </TouchableHighlight>
       <TextInput
         style={styles.input}
         onChangeText={onChangeInput}
@@ -100,12 +103,23 @@ const styles = StyleSheet.create({
     marginTop: windowsHeight / 20,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  logo: {
+    position: 'absolute',
+    zIndex: 5,
+    left: '3%',
+    height: 32,
+    width: 24,
+    resizeMode: 'stretch',
   },
   input: {
-    width: '90%',
+    width: '85%',
+    alignSelf: 'flex-end',
     height: 35,
-    margin: 12,
+    marginTop: '3%',
+    marginBottom: '3%',
+    marginRight: '3%',
+    marginLeft: 'auto',
     borderRadius: 5,
     padding: 10,
     color: 'white',

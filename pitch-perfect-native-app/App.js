@@ -21,6 +21,8 @@ export default function App() {
   // }
 
   function handleSelect(id) {
+    console.log('here');
+
     setSelectedVideoId(id);
     console.log('selected video id: ', id);
   }
@@ -30,10 +32,15 @@ export default function App() {
     setVideos(videos);
   }
 
+  function handleReturnHome() {
+    setSelectedVideoId('');
+    setVideos([]);
+  }
+
   if (selectedVideoId !== '') {
     return (
       <View style={styles.container}>
-        <VideoSearch onSubmit={handleSubmit} />
+        <VideoSearch onSubmit={handleSubmit} onReturnHome={handleReturnHome} />
         <Text style={styles.trackTitle}>{selectedVideo ? selectedVideo.snippet.title : 'test track'}</Text>
         <Text style={styles.trackInterpreter}>{selectedVideo ? selectedVideo.snippet.channelTitle : 'test interpreter'}</Text>
         <WebView
@@ -59,7 +66,7 @@ export default function App() {
   } else if (currentVideos.length > 0) {
     return (
       <View style={styles.container}>
-        <VideoSearch onSubmit={handleSubmit} />
+        <VideoSearch onSubmit={handleSubmit} onReturnHome={handleReturnHome} />
         <VideoList videos={currentVideos} onSelect={handleSelect} />
         <StatusBar style="auto" />
       </View>
@@ -67,9 +74,9 @@ export default function App() {
   } else {
     return (
       <View style={styles.container}>
-        <VideoSearch onSubmit={handleSubmit} />
+        <VideoSearch onSubmit={handleSubmit} onReturnHome={handleReturnHome} />
 
-        <Image style={styles.logo} source={require('./assets/pitchify-logo-truncated.png')}></Image>
+        <Image onPress={() => console.log('pressed')} style={styles.logo} source={require('./assets/pitchify-logo-truncated.png')}></Image>
         <Text style={styles.title}>Start by Searching for Tracks</Text>
         <Text style={styles.subtitle}>Find all artists and songs the web has to offer!</Text>
         <Button
@@ -86,7 +93,7 @@ export default function App() {
 }
 
 const windowsWidth = Dimensions.get('window').width;
-const windowsHeight = Dimensions.get('window').height;
+// const windowsHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
