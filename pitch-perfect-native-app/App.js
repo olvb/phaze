@@ -55,7 +55,7 @@ export default function App() {
         />
 
         <Button
-          color="#82fafa"
+          color="grey"
           style={styles.debuggerButton}
           title="Go Back"
           onPress={() => {
