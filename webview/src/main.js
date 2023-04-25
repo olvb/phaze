@@ -30,19 +30,19 @@ let loader = new wavesLoaders.AudioBufferLoader();
 var speedFactor = 1.0;
 var pitchFactor = 1.0;
 
-function init() {
-  // let $startLocal = document.querySelector('#start-local');
-  // $startLocal.addEventListener('click', handleLocalFile);
-  // let $testServer = document.querySelector('#test-server');
-  // $testServer.addEventListener('click', () => {
-  //   console.log('clicked, sending data');
-  //   ws.send(`https://www.youtube.com/watch?v=R5i3tAcCcd0`);
-  // });
-  while (!wsLoaded) {
-    console.log('wait');
-  }
-  ws.send(`https://www.youtube.com/watch?v=R5i3tAcCcd0`);
-}
+// function init() {
+//   // let $startLocal = document.querySelector('#start-local');
+//   // $startLocal.addEventListener('click', handleLocalFile);
+//   // let $testServer = document.querySelector('#test-server');
+//   // $testServer.addEventListener('click', () => {
+//   //   console.log('clicked, sending data');
+//   //   ws.send(`https://www.youtube.com/watch?v=R5i3tAcCcd0`);
+//   // });
+//   while (!wsLoaded) {
+//     console.log('waiting');
+//   }
+//   ws.send(`https://www.youtube.com/watch?v=R5i3tAcCcd0`);
+// }
 
 async function receiveBufferFromServer(event) {
   const audioContext = new AudioContext();
@@ -257,7 +257,7 @@ function setupTimeline(buffer, playControl) {
   })();
 }
 
-window.addEventListener('load', init);
+//window.addEventListener('load', init);
 
 window.addEventListener('message', (message) => {
   if (message.data === 'use_local_track') {
