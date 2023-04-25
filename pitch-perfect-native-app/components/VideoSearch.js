@@ -67,6 +67,9 @@ export default function VideoSearch({ onSubmit, onReturnHome }) {
         }}
         clearButtonMode="always"
         clearTextOnFocus={true}
+        autoCorrect={false}
+        autoComplete="off"
+        autoCapitalize="none"
       />
       {/* <Image style={styles.crossIcon} onPress={() => this.searchInputRef.clear()} source={require('../assets/cancel-svgrepo-com.png')}></Image> */}
     </View>

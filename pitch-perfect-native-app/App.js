@@ -6,7 +6,7 @@ import * as Animatable from 'react-native-animatable';
 import VideoList from './components/VideoList';
 import VideoSearch from './components/VideoSearch';
 
-import { WEBVIEW_URL, LOCAL_WEBVIEW_URL, PRODUCTION_URL } from '@env';
+import { NGROK_WEBVIEW_URL, LOCAL_WEBVIEW_URL, PRODUCTION_URL } from '@env';
 
 export default function App() {
   [videos, setVideos] = useState([]);

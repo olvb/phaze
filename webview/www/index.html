@@ -6,42 +6,37 @@
         <title>Phaze - A real-time web audio pitch-shifte</title>
         <link href="//fonts.googleapis.com/css?family=Roboto:500,700" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="./style.css" />
-        <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
-            crossorigin="anonymous"></script>
+
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <script src="./main.js"></script>
     </head>
 
     <body>
 
+
+        <div class="loading-spinner">
+            <img src="assets/notes-loader.gif">
+            <h2>Buffering...</h2>
+        </div>
+
         <div class="wrapper">
-
-
-
             <div class="workletContainer">
-
-                <div class="loading-spinner">
-                    <img src="assets/notes-loader.gif">
-                    <h2>Buffering...</h2>
-                </div>
                 <div id="no-worklet" style="display: none;">Audio Worklet API not supported by you browser, try a recent Chrome version.</div>
                 <div class="timeline" id="timeline"></div>
             </div>
 
             <div class="controls">
                 <label for="pitch">
-                    <span style=" margin-bottom: 5%;">Pitch</span>
+                    <span style=" margin-bottom: 4%;">Pitch</span>
                     <input class="slider" id="pitch" type="range" min="-10" max="10" step="1" />
 
-                    <span style="margin-top: 5%;  margin-bottom: 5%;" id="pitch-value">0</span>
+                    <span style="margin-top: 4%;  margin-bottom: 6%;" id="pitch-value">0</span>
                 </label>
                 <label for="speed">
-                    <span style="margin-bottom: 5%;">Speed</span>
+                    <span style="margin-bottom: 4%;">Speed</span>
                     <input class="slider" id="speed" type="range" min="0.5" max="1.5" step="0.01" />
-                    <span style="margin-top: 5%;" id="speed-value">1.00</span>
+                    <span style="margin-top: 4%;" id="speed-value">1.00</span>
                 </label>
-
-
 
             </div>
 
@@ -85,14 +80,13 @@
                 </div>
 
             </div>
-            <button id="start-local" style="font-size: 1.3rem;" data-playing="false" aria-checked="false">
-                START LOCAL
-            </button>
+            <!-- <button id="start-local" style="font-size: 1.3rem;" data-playing="false" aria-checked="false">
+                START LOCAL TEST
+            </button> -->
             <!-- <button id="test-server" style="font-size: 1.3rem;" data-playing="false" aria-checked="false">
                 TEST SERVER
             </button> -->
         </div>
-
 
     </body>
 

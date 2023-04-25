@@ -18,7 +18,6 @@
     "watch": "npm run watch-main | npm run watch-audio-worklet",
     "start": "http-server www/",
     "build-start": "npm run build && npm run start",
-    "start-server": "nodemon ./server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish": "npm run build-audio-worklet && npm run build-min && npm publish"
   },

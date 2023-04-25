@@ -6,7 +6,10 @@ const wavesLoaders = require('waves-loaders');
 const Sockette = require('sockette');
 //const Tone = require('tone');
 
-const ws = new Sockette('wss://pitchify-server.fly.dev', {
+const socketUrl = 'ws://localhost:8080';
+//const socketUrl = 'wss://pitchify-server.fly.dev';
+
+const ws = new Sockette(socketUrl, {
   timeout: 5e3,
   maxAttempts: 10,
   onopen: (e) => console.log('Connected', e),
@@ -23,16 +26,15 @@ let loader = new wavesLoaders.AudioBufferLoader();
 var speedFactor = 1.0;
 var pitchFactor = 1.0;
 
-function init() {
-  let $startLocal = document.querySelector('#start-local');
-  $startLocal.addEventListener('click', handleLocalFile);
-
-  let $testServer = document.querySelector('#test-server');
-  $testServer.addEventListener('click', () => {
-    console.log('clicked, sending data');
-    ws.send(`https://www.youtube.com/watch?v=R5i3tAcCcd0`);
-  });
-}
+//function init() {
+// let $startLocal = document.querySelector('#start-local');
+// $startLocal.addEventListener('click', handleLocalFile);
+// let $testServer = document.querySelector('#test-server');
+// $testServer.addEventListener('click', () => {
+//   console.log('clicked, sending data');
+//   ws.send(`https://www.youtube.com/watch?v=R5i3tAcCcd0`);
+// });
+//}
 
 async function receiveBufferFromServer(event) {
   const audioContext = new AudioContext();
@@ -66,21 +68,24 @@ async function handleAudioBuffer(buffer) {
   // Remove loader & start-local button from the DOM and display the track related HTML
   const $spinner = document.querySelector('.loading-spinner');
   $spinner.style.display = 'none';
-  const $localFileButton = document.querySelector('#start-local');
-  $localFileButton.style.display = 'none';
-  const $bottom = document.querySelector('.bottom');
-  $bottom.style.display = 'block';
-  const $controls = document.querySelector('.controls');
-  $controls.style.display = 'flex';
+
+  const $wrapper = document.querySelector('.wrapper');
+  $wrapper.style.display = 'grid';
+  // const $localFileButton = document.querySelector('#start-local');
+  // $localFileButton.style.display = 'none';
+  // const $bottom = document.querySelector('.bottom');
+  // $bottom.style.display = 'block';
+  // const $controls = document.querySelector('.controls');
+  // $controls.style.display = 'flex';
 }
 
 function handleNoWorklet() {
   let $noWorklet = document.querySelector('#no-worklet');
   $noWorklet.style.display = 'block';
-  let $timeline = document.querySelector('.timeline');
-  $timeline.style.display = 'none';
-  let $controls = document.querySelector('.controls');
-  $controls.style.display = 'none';
+  // let $timeline = document.querySelector('.timeline');
+  // $timeline.style.display = 'none';
+  // let $controls = document.querySelector('.controls');
+  // $controls.style.display = 'none';
 }
 
 async function setupEngine(buffer) {
@@ -168,7 +173,7 @@ function setupPitchSlider(phaseVocoderNode) {
 function setupTimeline(buffer, playControl) {
   let $timeline = document.querySelector('#timeline');
 
-  const width = $timeline.getBoundingClientRect().width;
+  const width = document.body.clientWidth * 0.9;
   //const height = document.querySelector('.workletContainer').height;
   const height = Math.trunc((width * 5) / 8);
   const duration = buffer.duration;
@@ -244,7 +249,7 @@ function setupTimeline(buffer, playControl) {
   })();
 }
 
-window.addEventListener('load', init);
+// window.addEventListener('load', init);
 
 window.addEventListener('message', (message) => {
   if (message.data === 'use_local_track') {
