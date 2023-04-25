@@ -2500,160 +2500,6 @@ for (var i = 0; i < DOMIterables.length; i++) {
 }
 
 },{"./_global":53,"./_hide":55,"./_iterators":68,"./_wks":111,"./es6.array.iterator":114}],137:[function(require,module,exports){
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function(val, options) {
-  options = options || {};
-  var type = typeof val;
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error(
-    'val is not a non-empty string or a valid number. val=' +
-      JSON.stringify(val)
-  );
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(
-    str
-  );
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  if (ms >= d) {
-    return Math.round(ms / d) + 'd';
-  }
-  if (ms >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (ms >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (ms >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  return plural(ms, d, 'day') ||
-    plural(ms, h, 'hour') ||
-    plural(ms, m, 'minute') ||
-    plural(ms, s, 'second') ||
-    ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, n, name) {
-  if (ms < n) {
-    return;
-  }
-  if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name;
-  }
-  return Math.ceil(ms / n) + ' ' + name + 's';
-}
-
-},{}],138:[function(require,module,exports){
 (function (process){(function (){
 /**
  * This is the web browser implementation of `debug()`.
@@ -2842,7 +2688,7 @@ function localstorage() {
 }
 
 }).call(this)}).call(this,require('_process'))
-},{"./debug":139,"_process":141}],139:[function(require,module,exports){
+},{"./debug":138,"_process":141}],138:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -3046,7 +2892,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":137}],140:[function(require,module,exports){
+},{"ms":140}],139:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3569,6 +3415,160 @@ function functionBindPolyfill(context) {
   return function () {
     return fn.apply(context, arguments);
   };
+}
+
+},{}],140:[function(require,module,exports){
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return;
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name;
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
 },{}],141:[function(require,module,exports){
@@ -8525,7 +8525,7 @@ var Scheduler = function (_SchedulingQueue) {
 
 exports.default = Scheduler;
 
-},{"../core/SchedulingQueue":158,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13,"babel-runtime/helpers/inherits":15,"babel-runtime/helpers/possibleConstructorReturn":16,"debug":138}],163:[function(require,module,exports){
+},{"../core/SchedulingQueue":158,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13,"babel-runtime/helpers/inherits":15,"babel-runtime/helpers/possibleConstructorReturn":16,"debug":137}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8876,7 +8876,7 @@ var SimpleScheduler = function () {
 
 exports.default = SimpleScheduler;
 
-},{"../core/TimeEngine":159,"babel-runtime/core-js/set":9,"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13,"debug":138}],164:[function(require,module,exports){
+},{"../core/TimeEngine":159,"babel-runtime/core-js/set":9,"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13,"debug":137}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12168,7 +12168,7 @@ var Layer = (function (_events$EventEmitter) {
 exports['default'] = Layer;
 module.exports = exports['default'];
 
-},{"../behaviors/time-context-behavior":172,"../shapes/segment":203,"../utils/scales":218,"./namespace":176,"babel-runtime/core-js/array/from":220,"babel-runtime/core-js/get-iterator":221,"babel-runtime/core-js/map":223,"babel-runtime/core-js/object/assign":224,"babel-runtime/helpers/class-call-check":234,"babel-runtime/helpers/create-class":235,"babel-runtime/helpers/get":236,"babel-runtime/helpers/inherits":237,"babel-runtime/helpers/interop-require-default":238,"babel-runtime/helpers/sliced-to-array":239,"events":140}],176:[function(require,module,exports){
+},{"../behaviors/time-context-behavior":172,"../shapes/segment":203,"../utils/scales":218,"./namespace":176,"babel-runtime/core-js/array/from":220,"babel-runtime/core-js/get-iterator":221,"babel-runtime/core-js/map":223,"babel-runtime/core-js/object/assign":224,"babel-runtime/helpers/class-call-check":234,"babel-runtime/helpers/create-class":235,"babel-runtime/helpers/get":236,"babel-runtime/helpers/inherits":237,"babel-runtime/helpers/interop-require-default":238,"babel-runtime/helpers/sliced-to-array":239,"events":139}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13034,7 +13034,7 @@ var Timeline = (function (_events$EventEmitter) {
 exports['default'] = Timeline;
 module.exports = exports['default'];
 
-},{"../interactions/keyboard":193,"../interactions/surface":194,"./layer-time-context":174,"./timeline-time-context":177,"./track":180,"./track-collection":179,"babel-runtime/core-js/get-iterator":221,"babel-runtime/core-js/symbol/iterator":233,"babel-runtime/helpers/class-call-check":234,"babel-runtime/helpers/create-class":235,"babel-runtime/helpers/get":236,"babel-runtime/helpers/inherits":237,"babel-runtime/helpers/interop-require-default":238,"babel-runtime/regenerator":241,"events":140}],179:[function(require,module,exports){
+},{"../interactions/keyboard":193,"../interactions/surface":194,"./layer-time-context":174,"./timeline-time-context":177,"./track":180,"./track-collection":179,"babel-runtime/core-js/get-iterator":221,"babel-runtime/core-js/symbol/iterator":233,"babel-runtime/helpers/class-call-check":234,"babel-runtime/helpers/create-class":235,"babel-runtime/helpers/get":236,"babel-runtime/helpers/inherits":237,"babel-runtime/helpers/interop-require-default":238,"babel-runtime/regenerator":241,"events":139}],179:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -14387,7 +14387,7 @@ var EventSource = (function (_events$EventEmitter) {
 exports['default'] = EventSource;
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/class-call-check":234,"babel-runtime/helpers/create-class":235,"babel-runtime/helpers/get":236,"babel-runtime/helpers/inherits":237,"babel-runtime/helpers/interop-require-default":238,"events":140}],193:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":234,"babel-runtime/helpers/create-class":235,"babel-runtime/helpers/get":236,"babel-runtime/helpers/inherits":237,"babel-runtime/helpers/interop-require-default":238,"events":139}],193:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -20510,7 +20510,7 @@ const wavesLoaders = require('waves-loaders');
 const Sockette = require('sockette');
 //const Tone = require('tone');
 
-const ws = new Sockette('ws://localhost:3000', {
+const ws = new Sockette('wss://pitchify-server.fly.dev', {
   timeout: 5e3,
   maxAttempts: 10,
   onopen: (e) => console.log('Connected', e),

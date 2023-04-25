@@ -4,7 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.18.2",
     "ws": "^8.13.0",
     "ytdl": "^1.4.1"
+  },
+  "scripts": {
+    "start": "node index.js"
   }
 }
