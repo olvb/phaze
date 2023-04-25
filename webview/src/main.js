@@ -26,6 +26,12 @@ var pitchFactor = 1.0;
 function init() {
   let $startLocal = document.querySelector('#start-local');
   $startLocal.addEventListener('click', handleLocalFile);
+
+  let $testServer = document.querySelector('#test-server');
+  $testServer.addEventListener('click', () => {
+    console.log('clicked, sending data');
+    ws.send(`https://www.youtube.com/watch?v=R5i3tAcCcd0`);
+  });
 }
 
 async function receiveBufferFromServer(event) {
