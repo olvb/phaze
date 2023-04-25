@@ -88,13 +88,13 @@ export default function App() {
           ></Animatable.Image>
           <Text style={styles.title}>Start by Searching for Tracks</Text>
           <Text style={styles.subtitle}>Find all artists and songs the web has to offer!</Text>
-          <Button
+          {/* <Button
             color="#82fafa"
             title="Load Test Track"
             onPress={() => {
               handleSelect('use_local_track');
             }}
-          ></Button>
+          ></Button> */}
           <StatusBar style="auto" />
         </Animatable.View>
       </View>

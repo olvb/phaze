@@ -88,7 +88,7 @@ function ISO8601toVideoLength(input) {
     if (res < 10) {
       res = '0' + res;
     }
-    res = '00:' + res;
+    res = '0:' + res;
   }
 
   // add a zero at the end of seconds if it's just one digit
