@@ -183,7 +183,7 @@ function setupTimeline(buffer, playControl) {
   timeline.createTrack($timeline, height, 'main');
   let waveformLayer = new wavesUI.helpers.WaveformLayer(buffer, {
     height: height,
-    color: '#0FABFF',
+    color: '#82fafa',
   });
 
   // cursor

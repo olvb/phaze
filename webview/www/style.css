@@ -27,7 +27,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   -webkit-animation: fadeIn 0.5s linear;
   animation: fadeIn 0.5s linear;
 }
@@ -112,7 +111,7 @@ body {
   appearance: none;
   width: 45px;
   height: 45px;
-  background: #0fabff;
+  background: #82fafa;
   cursor: pointer;
   border-radius: 20px;
 }
@@ -120,7 +119,7 @@ body {
 .slider::-moz-range-thumb {
   width: 45px;
   height: 45px;
-  background: #0fabff;
+  background: #82fafa;
   cursor: pointer;
   border-radius: 20px;
 }
@@ -154,23 +153,24 @@ body {
 
 #play {
   border-radius: 100%;
-  border-color: #0fabff;
+  /* border-color: #0fabff; */
+  border-color: #82fafa;
 }
 #play:hover {
-  stroke: #45beff;
-  fill: #45beff;
+  stroke: #82fafa;
+  fill: #82fafa;
   border-radius: 100%;
   background-color: rgba(255, 255, 255, 0.1);
 }
 
 #pause {
   border-radius: 100%;
-  border-color: #0fabff;
+  border-color: #82fafa;
   display: none;
 }
 #pause:hover {
-  stroke: #45beff;
-  fill: #45beff;
+  stroke: #82fafa;
+  fill: #82fafa;
   border-radius: 100%;
   background-color: rgba(255, 255, 255, 0.1);
 }

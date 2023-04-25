@@ -55,6 +55,8 @@ export default function App() {
         />
 
         <Button
+          color="#82fafa"
+          style={styles.debuggerButton}
           title="Go Back"
           onPress={() => {
             setSelectedVideoId('');
@@ -87,7 +89,7 @@ export default function App() {
           <Text style={styles.title}>Start by Searching for Tracks</Text>
           <Text style={styles.subtitle}>Find all artists and songs the web has to offer!</Text>
           <Button
-            style={styles.debuggerButton}
+            color="#82fafa"
             title="Load Test Track"
             onPress={() => {
               handleSelect('use_local_track');
