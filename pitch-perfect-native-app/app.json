@@ -31,6 +31,12 @@
         "projectId": "bf06e745-bcd2-47df-8763-1756580c3ccb"
       }
     },
-    "owner": "juice100"
+    "owner": "juice100",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/bf06e745-bcd2-47df-8763-1756580c3ccb"
+    }
   }
 }

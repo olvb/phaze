@@ -14,6 +14,7 @@
     "expo": "^48.0.11",
     "expo-constants": "^14.2.1",
     "expo-status-bar": "~1.4.4",
+    "expo-updates": "~0.16.4",
     "npm": "^9.6.5",
     "react": "^18.2.0",
     "react-native": "0.71.6",

@@ -45,7 +45,7 @@ export default function App() {
         <Text style={styles.trackInterpreter}>{selectedVideo ? selectedVideo.snippet.channelTitle : 'test interpreter'}</Text>
         <WebView
           style={styles.webview}
-          source={{ uri: LOCAL_WEBVIEW_URL }} // needs to be replaced with the tunnel url when we test on iphone
+          source={{ uri: PRODUCTION_URL }} // needs to be replaced with the tunnel url when we test on iphone
           ref={(ref) => (webViewRef.current = ref)}
           incognito={true}
           onMessage={(event) => {

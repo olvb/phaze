@@ -24,6 +24,14 @@ const ws = new Sockette(socketUrl, {
   onerror: (e) => console.log('Error:', e),
 });
 
+function waitForConnection() {
+  return new Promise((resolve) => {
+    if (wsLoaded) {
+      resolve();
+    }
+  });
+}
+
 let audioContext = wavesAudio.audioContext;
 let loader = new wavesLoaders.AudioBufferLoader();
 
@@ -90,10 +98,6 @@ async function handleAudioBuffer(buffer) {
 function handleNoWorklet() {
   let $noWorklet = document.querySelector('#no-worklet');
   $noWorklet.style.display = 'block';
-  // let $timeline = document.querySelector('.timeline');
-  // $timeline.style.display = 'none';
-  // let $controls = document.querySelector('.controls');
-  // $controls.style.display = 'none';
 }
 
 async function setupEngine(buffer) {
@@ -257,20 +261,19 @@ function setupTimeline(buffer, playControl) {
   })();
 }
 
-//window.addEventListener('load', init);
-
-window.addEventListener('message', (message) => {
-  if (message.data === 'use_local_track') {
-    handleLocalFile();
-  } else {
-    while (!wsLoaded) {
-      console.log('wait');
+// const message = { data: 'R5i3tAcCcd0 ' };
+window.addEventListener('load', () => {
+  window.addEventListener('message', async (message) => {
+    if (message.data === 'use_local_track') {
+      handleLocalFile();
+    } else {
+      await waitForConnection();
+      ws.send(`https://www.youtube.com/watch?v=${message.data}`);
     }
-    ws.send(`https://www.youtube.com/watch?v=${message.data}`);
-  }
-  if (window.ReactNativeWebView) {
-    window.ReactNativeWebView.postMessage('Passed on data to server');
-  }
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage('Passed on data to server');
+    }
+  });
 });
 
 // Will keep this in case anything breaks, but as of now Tone JS is not as good as the phazer package
